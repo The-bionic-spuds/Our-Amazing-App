@@ -2,7 +2,7 @@
 $.fn.dankMeme = function () {
     var t = this;
     t.colorsArr = ["peach", "purple", "blue", "aqua", "amy-crisp", "ripe-malinka", "morpheus-den", "dusty-grass", "tempting-azure"];
-    t.memeCall = function(set) {
+    t.memeCall = function() {
         t.input = $("#input-word").val().trim();
         var settings = {
             "async": true,
@@ -55,8 +55,8 @@ $.fn.dankMeme = function () {
         });
     }
 
-    t.memeResult = function () {
-        t.memeCall(t.memeSettings);
+    t.urbanCall = function(){
+
     }
     return t;
 };
@@ -65,7 +65,7 @@ $(document).ready(function () {
     var dank = $(window).dankMeme();
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
-        dank.memeResult();
+        dank.memeCall();
     })
 });
 
