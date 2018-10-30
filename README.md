@@ -5,3 +5,5 @@
 # NO ALERTS, CONFIRMS, OR PROMPTS
 # MUST HAVE USER INPUT VALIDATION
 # BUILD SOMETHING AWESOME!!!
+
+# Roles: Pseudo Coder, Database Expert, API Expert, CSS Designer
