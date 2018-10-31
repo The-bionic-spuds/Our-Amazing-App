@@ -1,10 +1,10 @@
-
 $.fn.dankMeme = function () {
     // Create functions inside this plugin to avoid global variables/collisions.
     var t = this;
     t.colorsArr = ["peach", "purple", "blue", "aqua", "amy-crisp", "ripe-malinka", "morpheus-den", "dusty-grass", "tempting-azure"];
+    
     t.memeCall = function() {
-        t.input = $("#input-word").val().trim();
+        t.getInput();
         var settings = {
             "async": true,
             "crossDomain": true,
@@ -20,44 +20,79 @@ $.fn.dankMeme = function () {
             console.log(t.results);
             t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)]
             t.rand =  t.results[Math.floor(Math.random() * t.results.length)]
-            t.memeDiv = $("#meme-holder");
-            t.memeDiv.html("");
-            t.div = $("<div>");
-            t.img = $("<img>");
-            t.p = $("<p>")
+            var c = t.containers();;
+            c.memeDiv.html("");
             if (t.results.length > 0) {
-                t.div.attr({
+                c.div.attr({
                     "width": "300px",
                     "height": "auto"
                 });
-                t.p.text(t.rand.title).addClass(t.colorPick + "-gradient").css({
+                c.p.text(t.rand.title).addClass(t.colorPick + "-gradient").css({
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
                 });
-                t.img.attr({
+                c.img.attr({
                     "src": t.rand.images[0].link,
                     "class": "img-fluid"
                 });
-                t.div.append(t.p, t.img);
-                t.memeDiv.append(t.div);
+                c.div.append(c.p, c.img);
+                c.memeDiv.append(c.div);
             } else {
-                t.p.text("No memes here").addClass(t.colorPick + "-gradient").css({
+                c.p.text("No memes here").addClass(t.colorPick + "-gradient").css({
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
                 });
-                t.img.attr({
+                c.img.attr({
                     "src": "assets/images/tenor.png",
                     "class": "img-fluid"
                 });
-                t.memeDiv.append(t.p, t.img);
+                c.memeDiv.append(c.p, c.img);
             };
         });
     }
 
     t.urbanCall = function(){
+        t.getInput();
+        var settings = {
+            "url": "http://api.urbandictionary.com/v0/define?term=" + t.input,
+            "method": "GET"
+        };
 
+        $.ajax(settings).done(function (response) {
+            t.results = response.list;
+            console.log(t.results);
+            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
+            console.log(t.rand);
+            var c = t.containers();
+            c.urbanDiv.html("");
+            c.p.text("[URBAN] " + t.rand.definition).css({
+                "padding-left": "10px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("rainy-ashville-gradient");
+            c.head.text(t.rand.word + " by: " + t.rand.author).css({
+                "padding-left": "5px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("lady-lips-gradient");
+            c.urbanDiv.append(c.head, c.p);
+
+        })
+    }
+    t.containers = function(){
+        var c = this;
+        c.div = $("<div>");
+        c.img = $("<img>");
+        c.p = $("<p>");
+        c.head = $("<h3>");
+        c.memeDiv = $("#meme-holder");
+        c.urbanDiv = $("#urban");
+        return c;
+    }
+    t.getInput = function(){
+        t.input = $("#input-word").val().trim();
     }
     return t;
 };
@@ -67,9 +102,9 @@ $(document).ready(function () {
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
         dank.memeCall();
+        dank.urbanCall();
     })
 });
-
 
 
 
