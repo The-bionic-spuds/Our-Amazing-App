@@ -18,15 +18,19 @@ $.fn.dankMeme = function () {
         $.ajax(settings).done(function (response) {
             t.results = response.data;
             console.log(t.results);
+
             t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
             t.rand =  t.results[Math.floor(Math.random() * t.results.length)];
             var c = t.containers();;
+
             if (t.results.length > 0) {
                 c.div.attr({
                     "width": "300px",
                     "height": "auto"
                 });
+
                 c.p.text(t.rand.title).addClass(t.colorPick + "-gradient z-depth-1").css({
+
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
@@ -34,11 +38,13 @@ $.fn.dankMeme = function () {
                 c.img.attr({
                     "src": t.rand.images[0].link,
                     "class": "img-fluid"
+
                 }).addClass("z-depth-1");
                 c.div.append(c.p, c.img);
                 c.memeDiv.append(c.div);
             } else {
                 c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
+
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
@@ -46,7 +52,9 @@ $.fn.dankMeme = function () {
                 c.img.attr({
                     "src": "assets/images/tenor.png",
                     "class": "img-fluid"
+
                 }).addClass("z-depth-1");
+
                 c.memeDiv.append(c.p, c.img);
             };
         });
@@ -58,6 +66,7 @@ $.fn.dankMeme = function () {
             "url": "http://api.urbandictionary.com/v0/define?term=" + t.input,
             "method": "GET"
         };
+
 
         $.ajax(settings).done(function (response) {
             t.results = response.list;
@@ -85,6 +94,7 @@ $.fn.dankMeme = function () {
         c.urbanDiv.html("");
         c.memeDiv.html("");
     }
+
     t.containers = function(){
         var c = this;
         c.div = $("<div>");
@@ -94,10 +104,13 @@ $.fn.dankMeme = function () {
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
         return c;
+
     }
     t.getInput = function(){
         t.input = $("#input-word").val().trim();
+
     }
+    
     
     return t;
 };
@@ -110,9 +123,9 @@ $(document).ready(function () {
         dank.urbanCall();
         dank.cleanUp();
 
+
     })
 });
-
 
 
 
