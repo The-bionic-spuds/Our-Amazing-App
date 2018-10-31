@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <!-- Main Bootstrap Search -->  
+    <!-- Main Bootstrap Search -->
     <!-- Jumbotron for Title -->
     <div class="jumbotron morpheus-den-gradient" style="color: white;">
         <h1 class="text-center">
@@ -29,24 +29,26 @@
 
     <!-- Row for Searching -->
     <div class="row">
-            <div class="col-sm-12">
+        <div class="col-sm-12">
         </div>
     </div>
     <!-- Create an HTML Form for handling the inputs-->
     <form>
         <div class="form-group">
-          <label for="input-word">Enter Word</label>
-          <input type="word" class="form-control" id="input-word" placeholder="Dank">
-         </div>
+            <label for="input-word">Enter Word</label>
+            <input type="text" class="form-control" id="input-word" placeholder="Dank">
+        </div>
 
-       
-    <!-- Create the text box for capturing the search term-->
 
-    <!-- Here we have our final submit button -->
-    <button type="submit" class="btn btn-primary"></button>
-</form>
+        <!-- Create the text box for capturing the search term-->
+
+        <!-- Here we have our final submit button -->
+        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+    </form>
     <!-- This row will handle all of the retrieved articles -->
-
+    <div class="row">
+        <div class="col-md-4" id="meme-holder"></div>
+    </div>
     <!-- Optional JavaScript -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
