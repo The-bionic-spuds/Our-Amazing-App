@@ -30,7 +30,7 @@ $.fn.dankMeme = function () {
                 });
 
                 c.p.text(t.rand.title).addClass(t.colorPick + "-gradient z-depth-1").css({
-
+                    "padding": "auto 5px auto 5px",
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
