@@ -1,5 +1,6 @@
 
 $.fn.dankMeme = function () {
+    // Create functions inside this plugin to avoid global variables/collisions.
     var t = this;
     t.colorsArr = ["peach", "purple", "blue", "aqua", "amy-crisp", "ripe-malinka", "morpheus-den", "dusty-grass", "tempting-azure"];
     t.memeCall = function() {
