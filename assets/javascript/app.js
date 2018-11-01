@@ -90,21 +90,36 @@ $.fn.dankMeme = function () {
     }
 
     // Write more API call functions here
-    t.oxfordCall = function (){ //oxford dictionary api call
+    t.wordsCall = function (){ //oxford dictionary api call
         t.getInput();
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "https://od-api.oxforddictionaries.com/api/v1/entries/en/" + t.input + "/regions=us",
+            "url": "https://wordsapiv1.p.mashape.com/words/" + t.input,
             "method": "GET",
             "headers": {
-              "app_id": "046f1f31",
-              "app_key": "21d68563863ccced82dfbdf5807a5bb9",
+              "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
             }
-          }
+          };
           
           $.ajax(settings).done(function (response) {
             console.log(response);
+            console.log(response.results);
+            t.results = response.results;
+            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
+            console.log(t.rand);
+            var c = t.containers();
+            c.p.text("[DEFINITION] " + t.rand.definition).css({
+                "padding-left": "10px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("blue-gradient z-depth-1");
+            c.head.text(t.input + " Part of Speech: " + t.rand.partOfSpeech).css({
+                "padding-left": "5px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("morpheus-den-gradient z-depth-1");
+            c.wordDiv.append(c.head, c.p);
           });
     }
 
@@ -114,6 +129,7 @@ $.fn.dankMeme = function () {
         $("#input-word").val("");
         c.urbanDiv.html("");
         c.memeDiv.html("");
+        c.wordDiv.html("");
     }
 
 
@@ -126,6 +142,7 @@ $.fn.dankMeme = function () {
         c.head = $("<h3>");
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
+        c.wordDiv = $("#word");
         return c; //returning container function data so that we can access it
 
     }
@@ -146,7 +163,7 @@ $(document).ready(function () {
         dank.memeCall();
         dank.urbanCall();
         // Call more API functions here
-
+        dank.wordsCall();
         dank.cleanUp();
 
 
