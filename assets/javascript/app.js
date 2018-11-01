@@ -74,7 +74,7 @@ $.fn.dankMeme = function () {
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             console.log(t.rand);
             var c = t.containers();
-            c.p.text("[URBAN] " + t.rand.definition).css({
+            c.p.text("[URBAN DEFINITION] " + t.rand.definition).css({
                 "padding-left": "10px",
                 "color": "white",
                 "font-family": "Poor Story"
@@ -88,14 +88,19 @@ $.fn.dankMeme = function () {
 
         })
     }
-    t.cleanUp = function(){
+    // Write more API call functions here
+    t.oxfordCall = function (){ //oxford dictionary api call
+
+    }
+
+    t.cleanUp = function(){ //add clears to this
         var c = t.containers();
         $("#input-word").val("");
         c.urbanDiv.html("");
         c.memeDiv.html("");
     }
 
-    t.containers = function(){
+    t.containers = function(){ //initialize jquery containers here
         var c = this;
         c.div = $("<div>");
         c.img = $("<img>");
@@ -103,16 +108,15 @@ $.fn.dankMeme = function () {
         c.head = $("<h3>");
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
-        return c;
+        return c; //returning container function data so that we can access it
 
     }
-    t.getInput = function(){
+    t.getInput = function(){ //nothing needs to be added unless we want multiple inputs
         t.input = $("#input-word").val().trim();
 
     }
-    
-    
-    return t;
+     
+    return t; //returning "this" dankmeme funciton allowing us to access all functions inside
 };
 $(document).ready(function () {
 
@@ -121,6 +125,8 @@ $(document).ready(function () {
         event.preventDefault();
         dank.memeCall();
         dank.urbanCall();
+        // Call more API functions here
+
         dank.cleanUp();
 
 
