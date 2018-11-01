@@ -10,8 +10,8 @@
 
 
 # Overview
-This amazing app provides user entertainment with some dank memes. 
-This app returns a trending meme each time the user enters a word.
+This amazing app provides user entertainment with some dank memes and funny definitions from Urban Dictionary.
+This app returns a trending meme and an "urban" definition of the word each time the user enters a word.
 
 # Target Audience
 We are targeting those who frequent the internet and use sites filled with memes such as Tumblr or Twitter. Most fit the 15-35 age demographic and are both male and female. Our audience are typically those who are known as "meme kings", "dank lords", "edge lords", "Norimes", etc. 
