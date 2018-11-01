@@ -91,7 +91,21 @@ $.fn.dankMeme = function () {
 
     // Write more API call functions here
     t.oxfordCall = function (){ //oxford dictionary api call
-
+        t.getInput();
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://od-api.oxforddictionaries.com/api/v1/entries/en/" + t.input + "/regions=us",
+            "method": "GET",
+            "headers": {
+              "app_id": "046f1f31",
+              "app_key": "21d68563863ccced82dfbdf5807a5bb9",
+            }
+          }
+          
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+          });
     }
 
     t.cleanUp = function(){ //add clears to this
