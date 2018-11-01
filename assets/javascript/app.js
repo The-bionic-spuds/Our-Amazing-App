@@ -127,5 +127,22 @@ $(document).ready(function () {
     })
 });
 
+// Dank Images Code
 
+var images = ["assets/images/doritochip.png", "assets/images/doritosbag.png", "./assets/images/mtdewcan.png", "./assets/images/mtndewlogo.png", "./assets/images/thomasthetank.png"];
 
+function setDankImages () {
+    for (var i = 0; i < images.length; i++) {
+        var dank = $("<img>");
+        dank.attr("src", images[i]);
+        dank.attr("id","img-" + i);
+        dank.attr("height", "50");
+        dank.attr("margin-left", "50px");
+        dank.addClass("ml-5");
+        $(".dankImages").append(dank);
+    }
+}
+
+setDankImages();
+
+// End Dank Images Code
