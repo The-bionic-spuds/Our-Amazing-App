@@ -2,8 +2,8 @@ $.fn.dankMeme = function () {
     // Create functions inside this plugin to avoid global variables/collisions.
     var t = this;
     t.colorsArr = ["peach", "purple", "blue", "aqua", "amy-crisp", "ripe-malinka", "morpheus-den", "dusty-grass", "tempting-azure"];
-    
-    t.memeCall = function() {
+
+    t.memeCall = function () {
         t.getInput();
         var settings = {
             "async": true,
@@ -14,13 +14,13 @@ $.fn.dankMeme = function () {
                 "Authorization": "Client-ID be876a4140064ba"
             }
         }
-        
+
         $.ajax(settings).done(function (response) {
             t.results = response.data;
             console.log(t.results);
 
             t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
-            t.rand =  t.results[Math.floor(Math.random() * t.results.length)];
+            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             var c = t.containers();;
 
             if (t.results.length > 0) {
@@ -60,7 +60,7 @@ $.fn.dankMeme = function () {
         });
     }
 
-    t.urbanCall = function(){
+    t.urbanCall = function () {
         t.getInput();
         var settings = {
             "url": "http://api.urbandictionary.com/v0/define?term=" + t.input,
@@ -88,14 +88,14 @@ $.fn.dankMeme = function () {
 
         })
     }
-    t.cleanUp = function(){
+    t.cleanUp = function () {
         var c = t.containers();
         $("#input-word").val("");
         c.urbanDiv.html("");
         c.memeDiv.html("");
     }
 
-    t.containers = function(){
+    t.containers = function () {
         var c = this;
         c.div = $("<div>");
         c.img = $("<img>");
@@ -106,12 +106,14 @@ $.fn.dankMeme = function () {
         return c;
 
     }
-    t.getInput = function(){
+    t.getInput = function () {
         t.input = $("#input-word").val().trim();
 
     }
-    
-    
+
+
+
+
     return t;
 };
 $(document).ready(function () {
@@ -125,6 +127,10 @@ $(document).ready(function () {
 
 
     })
+
+    $("#clear").on("click", function(){
+        cleanUp;
+    });
 });
 
 
