@@ -74,7 +74,7 @@ $.fn.dankMeme = function () {
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             console.log(t.rand);
             var c = t.containers();
-            c.p.text("[URBAN] " + t.rand.definition).css({
+            c.p.text("[URBAN DEFINITION] " + t.rand.definition).css({
                 "padding-left": "10px",
                 "color": "white",
                 "font-family": "Poor Story"
