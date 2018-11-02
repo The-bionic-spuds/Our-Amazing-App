@@ -25,15 +25,5 @@
     70% { transform: translate(3px, 1px) rotate(-1deg); }
     80% { transform: translate(-1px, -1px) rotate(1deg); }
     90% { transform: translate(1px, 2px) rotate(0deg); }
-<<<<<<< HEAD
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-.btn-primary {
-    background-color: #012083;
-    color: white;
-}
-=======
     100% { transform: translate(1px, -2px) rotate(-1deg); left:0px;}
 }
->>>>>>> a992a415b3fee6d13292fc0cef965026fcfe0b87

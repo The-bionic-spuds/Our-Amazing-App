@@ -20,4 +20,4 @@ We are targeting those who frequent the internet and use sites filled with memes
 This app will address the problem of being uneducated of the meme world. It will also assist others in searching for the right meme or discovering new memes. 
 
 # Primary Goal
-Those who use our app will not only be educated with memes but will also be entertained and triggered with ucontrollable laughs.
+Those who use our app will not only be educated with memes but will also be entertained and triggered with ucontrollable laughter.
