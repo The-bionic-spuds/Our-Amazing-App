@@ -2,6 +2,22 @@ $.fn.dankMeme = function () {
     // Create functions inside this plugin to avoid global variables/collisions.
     var t = this;
     t.colorsArr = ["peach", "purple", "blue", "aqua", "amy-crisp", "ripe-malinka", "morpheus-den", "dusty-grass", "tempting-azure"];
+    t.saveObject = {
+        memeCall: {
+            title: "",
+            img: ""
+        },
+        urbanCall: {
+            definition: "",
+            word: "",
+            author: ""
+        },
+        wordsCall:{
+            definition: "",
+            word: "",
+            partOfSpeech: ""
+        }
+    }
 
     t.memeCall = function () {
         t.getInput();
@@ -85,7 +101,6 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("rainy-ashville-gradient z-depth-1");
             c.urbanDiv.append(c.head, c.p);
-
         })
     }
 
@@ -121,7 +136,13 @@ $.fn.dankMeme = function () {
             }).addClass("morpheus-den-gradient z-depth-1");
             c.wordDiv.append(c.head, c.p);
           });
-    }
+    };
+
+    t.gifCall = function (){
+
+    };
+
+    t.
 
     t.cleanUp = function(){ //add clears to this
 
@@ -143,7 +164,7 @@ $.fn.dankMeme = function () {
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
         c.wordDiv = $("#word");
-        return c; //returning container function data so that we can access it
+        return c; //returning "container" function data so that we can access it
 
     }
 
