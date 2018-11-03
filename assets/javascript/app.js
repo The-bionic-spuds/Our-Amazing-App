@@ -232,7 +232,8 @@ $(document).ready(function () {
 
     })
 
-    $("#clear").on("click", function () {
+    $("#clear").on("click", function (e) {
+        e.preventDefault();
         dank.cleanUp();
     });
 
