@@ -12,7 +12,7 @@ $.fn.dankMeme = function () {
             word: "",
             author: ""
         },
-        wordsCall:{
+        wordsCall: {
             definition: "",
             word: "",
             partOfSpeech: ""
@@ -105,7 +105,7 @@ $.fn.dankMeme = function () {
     }
 
     // Write more API call functions here
-    t.wordsCall = function (){ //oxford dictionary api call
+    t.wordsCall = function () { //oxford dictionary api call
         t.getInput();
         var settings = {
             "async": true,
@@ -113,11 +113,11 @@ $.fn.dankMeme = function () {
             "url": "https://wordsapiv1.p.mashape.com/words/" + t.input,
             "method": "GET",
             "headers": {
-              "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
+                "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
             }
-          };
-          
-          $.ajax(settings).done(function (response) {
+        };
+
+        $.ajax(settings).done(function (response) {
             console.log(response);
             console.log(response.results);
             t.results = response.results;
@@ -135,26 +135,26 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("morpheus-den-gradient z-depth-1");
             c.wordDiv.append(c.head, c.p);
-          });
+        });
     };
 
-    t.gifCall = function (){
+    t.gifCall = function () {
 
     };
 
     t.
 
-    t.cleanUp = function(){ //add clears to this
+        t.cleanUp = function () { //add clears to this
 
-        var c = t.containers();
-        $("#input-word").val("");
-        c.urbanDiv.html("");
-        c.memeDiv.html("");
-        c.wordDiv.html("");
-    }
+            var c = t.containers();
+            $("#input-word").val("");
+            c.urbanDiv.html("");
+            c.memeDiv.html("");
+            c.wordDiv.html("");
+        }
 
 
-    t.containers = function(){ //initialize jquery containers here
+    t.containers = function () { //initialize jquery containers here
 
         var c = this;
         c.div = $("<div>");
@@ -168,11 +168,11 @@ $.fn.dankMeme = function () {
 
     }
 
-    t.getInput = function(){ //nothing needs to be added unless we want multiple inputs
+    t.getInput = function () { //nothing needs to be added unless we want multiple inputs
         t.input = $("#input-word").val().trim();
 
     }
-     
+
     return t; //returning "this" dankmeme funciton allowing us to access all functions inside
 
 };
@@ -186,11 +186,26 @@ $(document).ready(function () {
         // Call more API functions here
         dank.wordsCall();
         dank.cleanUp();
+        //Firebase Call and Push
+        var config = {
+            apiKey: "AIzaSyA2A9okIthqpQ4v0lyEKLbsSrW3ShPPtx0",
+            authDomain: "dank-memes-recent.firebaseapp.com",
+            databaseURL: "https://dank-memes-recent.firebaseio.com",
+            projectId: "dank-memes-recent",
+            storageBucket: "",
+            messagingSenderId: "895419472859"
+        };
+        firebase.initializeApp(config);
 
+        // Create a variable to reference the database
+        var database = firebase.database();
+        database.ref().push({
+            Object: dank.saveObject
+        })
 
     })
 
-    $("#clear").on("click", function(){
+    $("#clear").on("click", function () {
         dank.cleanUp();
     });
 });
@@ -199,11 +214,11 @@ $(document).ready(function () {
 
 var images = ["assets/images/doritochip.png", "assets/images/doritosbag.png", "./assets/images/mtdewcan.png", "./assets/images/mtndewlogo.png", "./assets/images/thomasthetank.png"];
 
-function setDankImages () {
+function setDankImages() {
     for (var i = 0; i < images.length; i++) {
         var dank = $("<img>");
         dank.attr("src", images[i]);
-        dank.attr("id","img-" + i);
+        dank.attr("id", "img-" + i);
         dank.attr("height", "50");
         dank.attr("margin-left", "50px");
         dank.addClass("ml-5");
@@ -212,5 +227,4 @@ function setDankImages () {
 }
 
 setDankImages();
-
 // End Dank Images Code
