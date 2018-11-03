@@ -12,7 +12,7 @@ $.fn.dankMeme = function () {
             word: "",
             author: ""
         },
-        wordsCall:{
+        wordsCall: {
             definition: "",
             word: "",
             partOfSpeech: ""
@@ -111,7 +111,7 @@ $.fn.dankMeme = function () {
     };
 
     // Write more API call functions here
-    t.wordsCall = function (){ //oxford dictionary api call
+    t.wordsCall = function () { //oxford dictionary api call
         t.getInput();
         var settings = {
             "async": true,
@@ -119,11 +119,11 @@ $.fn.dankMeme = function () {
             "url": "https://wordsapiv1.p.mashape.com/words/" + t.input,
             "method": "GET",
             "headers": {
-              "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
+                "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
             }
-          };
-          
-          $.ajax(settings).done(function (response) {
+        };
+
+        $.ajax(settings).done(function (response) {
             console.log(response);
             console.log(response.results);
             t.results = response.results;
@@ -146,15 +146,48 @@ $.fn.dankMeme = function () {
             t.wordsPush.word = t.input;
             t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
             console.log(t.saveObject);
-          });
+        });
     };
 
-    t.gifCall = function (){
+    t.gifCall = function () {
+        var c = t.containers();
+        t.queryURL = "https://api.giphy.com/v1/gifs/random?q=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
 
+        $.ajax({
+            url: t.queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            t.results = response.data
+
+            t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
+
+            c.gifDiv.attr({
+                "class": "my-2 mx-2 float-left"
+            });
+            c.p.text(t.results.rating.toUpperCase()).css({
+                // "background-color": "#d1d1d1",
+                "color": "white",
+                "font-weight": "strong",
+                "text-align": "center"
+            }).attr({
+                "class": `${t.colorPick}-gradient`
+            });
+            c.img.attr({
+                "src": t.results.images.fixed_height_still.url,
+                "class": "gif",
+                "data-state": "still",
+                "data-still": t.results.images.fixed_height_still.url,
+                "data-animate": t.results.images.fixed_height.url
+            });
+            c.gifDiv.append(c.img, c.p);
+            $("#gif-holder").append(c.gifDiv);
+
+        });
     };
 
 
-    t.cleanUp = function(){ //add clears to this
+    t.cleanUp = function () { //add clears to this
 
         var c = t.containers();
         $("#input-word").val("");
@@ -164,7 +197,7 @@ $.fn.dankMeme = function () {
     }
 
 
-    t.containers = function(){ //initialize jquery containers here
+    t.containers = function () { //initialize jquery containers here
 
         var c = this;
         c.div = $("<div>");
@@ -174,15 +207,16 @@ $.fn.dankMeme = function () {
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
         c.wordDiv = $("#word");
+        c.gifDiv = $("<div>");
         return c; //returning "container" function data so that we can access it
 
     }
 
-    t.getInput = function(){ //nothing needs to be added unless we want multiple inputs
+    t.getInput = function () { //nothing needs to be added unless we want multiple inputs
         t.input = $("#input-word").val().trim();
 
     }
-     
+
     return t; //returning "this" dankmeme funciton allowing us to access all functions inside
 
 };
@@ -195,12 +229,13 @@ $(document).ready(function () {
         dank.urbanCall();
         // Call more API functions here
         dank.wordsCall();
+        dank.gifCall();
         dank.cleanUp();
 
 
     })
 
-    $("#clear").on("click", function(){
+    $("#clear").on("click", function () {
         dank.cleanUp();
     });
 });
