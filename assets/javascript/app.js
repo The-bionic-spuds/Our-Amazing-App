@@ -144,7 +144,7 @@ $.fn.dankMeme = function () {
             c.wordDiv.append(c.head, c.p);
             t.wordsPush.definition = t.rand.definition;
             t.wordsPush.word = t.input;
-            t.wordsCall.partOfSpeech = t.rand.partOfSpeech;
+            t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
             console.log(t.saveObject);
           });
     };
