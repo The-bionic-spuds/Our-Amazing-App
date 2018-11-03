@@ -34,7 +34,7 @@ $.fn.dankMeme = function () {
         $.ajax(settings).done(function (response) {
             t.results = response.data;
             console.log(t.results);
-
+            t.memePush = t.saveObject.memeCall;
             t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             var c = t.containers();;
@@ -58,6 +58,8 @@ $.fn.dankMeme = function () {
                 }).addClass("z-depth-1");
                 c.div.append(c.p, c.img);
                 c.memeDiv.append(c.div);
+                t.memePush.title = t.rand.title;
+                t.memePush.img = t.rand.images[0].link;
             } else {
                 c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
 
@@ -86,6 +88,7 @@ $.fn.dankMeme = function () {
 
         $.ajax(settings).done(function (response) {
             t.results = response.list;
+            t.urbanPush = t.saveObject.urbanCall;
             console.log(t.results);
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             console.log(t.rand);
@@ -101,8 +104,11 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("rainy-ashville-gradient z-depth-1");
             c.urbanDiv.append(c.head, c.p);
-        })
-    }
+            t.urbanPush.definition = t.rand.definition;
+            t.urbanPush.word = t.rand.word;
+            t.urbanPush.autor = t.rand.author;
+        });
+    };
 
     // Write more API call functions here
     t.wordsCall = function (){ //oxford dictionary api call
@@ -121,6 +127,7 @@ $.fn.dankMeme = function () {
             console.log(response);
             console.log(response.results);
             t.results = response.results;
+            t.wordsPush = t.saveObject.wordsCall;
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             console.log(t.rand);
             var c = t.containers();
@@ -135,6 +142,9 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("morpheus-den-gradient z-depth-1");
             c.wordDiv.append(c.head, c.p);
+            t.wordsPush.definition = t.rand.definition;
+            t.wordsPush.word = t.input;
+            t.wordsCall.partOfSpeech = t.rand.partOfSpeech;
           });
     };
 
@@ -142,7 +152,6 @@ $.fn.dankMeme = function () {
 
     };
 
-    t.
 
     t.cleanUp = function(){ //add clears to this
 
