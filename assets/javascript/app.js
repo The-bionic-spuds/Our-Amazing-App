@@ -16,6 +16,11 @@ $.fn.dankMeme = function () {
             definition: "",
             word: "",
             partOfSpeech: ""
+        },
+        gifCall: {
+            src: "",
+            dataStill: "",
+            dataAnimate: ""
         }
     }
 
@@ -145,33 +150,24 @@ $.fn.dankMeme = function () {
             t.wordsPush.definition = t.rand.definition;
             t.wordsPush.word = t.input;
             t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
-            console.log(t.saveObject);
         });
     };
 
     t.gifCall = function () {
         var c = t.containers();
-        t.queryURL = "https://api.giphy.com/v1/gifs/random?q=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
-
+        var queryURL = "https://api.giphy.com/v1/gifs/random?q=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
+        t.gifPush = t.saveObject.gifCall;
         $.ajax({
-            url: t.queryURL,
+            url: queryURL,
             method: "GET"
         }).then(function (response) {
             console.log(response);
-            t.results = response.data
+            t.results = response.data;
 
             t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
 
             c.gifDiv.attr({
                 "class": "my-2 mx-2 float-left"
-            });
-            c.p.text(t.results.rating.toUpperCase()).css({
-                // "background-color": "#d1d1d1",
-                "color": "white",
-                "font-weight": "strong",
-                "text-align": "center"
-            }).attr({
-                "class": `${t.colorPick}-gradient`
             });
             c.img.attr({
                 "src": t.results.images.fixed_height_still.url,
@@ -180,9 +176,11 @@ $.fn.dankMeme = function () {
                 "data-still": t.results.images.fixed_height_still.url,
                 "data-animate": t.results.images.fixed_height.url
             });
-            c.gifDiv.append(c.img, c.p);
+            c.gifDiv.append(c.img);
             $("#gif-holder").append(c.gifDiv);
-
+            t.gifPush.src = t.results.images.fixed_height_still.url;
+            t.gifPush.dataStill = t.results.images.fixed_height_still.url;
+            t.gifPush.dataAnimate = t.results.images.fixed_height.url;
         });
     };
 
@@ -194,6 +192,8 @@ $.fn.dankMeme = function () {
         c.urbanDiv.html("");
         c.memeDiv.html("");
         c.wordDiv.html("");
+        $("#gif-holder").html("");
+        console.log(t.saveObject);
     }
 
 
@@ -237,6 +237,17 @@ $(document).ready(function () {
 
     $("#clear").on("click", function () {
         dank.cleanUp();
+    });
+
+    $("body").on("click", ".gif", function () {
+        var state = $(this).attr("data-state");
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
     });
 });
 
