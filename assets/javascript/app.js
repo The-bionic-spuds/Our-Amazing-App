@@ -106,7 +106,7 @@ $.fn.dankMeme = function () {
             c.urbanDiv.append(c.head, c.p);
             t.urbanPush.definition = t.rand.definition;
             t.urbanPush.word = t.rand.word;
-            t.urbanPush.autor = t.rand.author;
+            t.urbanPush.author = t.rand.author;
         });
     };
 
@@ -145,6 +145,7 @@ $.fn.dankMeme = function () {
             t.wordsPush.definition = t.rand.definition;
             t.wordsPush.word = t.input;
             t.wordsCall.partOfSpeech = t.rand.partOfSpeech;
+            console.log(t.saveObject);
           });
     };
 
