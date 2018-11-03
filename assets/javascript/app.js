@@ -2,6 +2,27 @@ $.fn.dankMeme = function () {
     // Create functions inside this plugin to avoid global variables/collisions.
     var t = this;
     t.colorsArr = ["peach", "purple", "blue", "aqua", "amy-crisp", "ripe-malinka", "morpheus-den", "dusty-grass", "tempting-azure"];
+    t.saveObject = {
+        memeCall: {
+            title: "",
+            img: ""
+        },
+        urbanCall: {
+            definition: "",
+            word: "",
+            author: ""
+        },
+        wordsCall: {
+            definition: "",
+            word: "",
+            partOfSpeech: ""
+        },
+        gifCall: {
+            src: "",
+            dataStill: "",
+            dataAnimate: ""
+        }
+    }
 
     t.memeCall = function () {
         t.getInput();
@@ -18,7 +39,7 @@ $.fn.dankMeme = function () {
         $.ajax(settings).done(function (response) {
             t.results = response.data;
             console.log(t.results);
-
+            t.memePush = t.saveObject.memeCall;
             t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             var c = t.containers();;
@@ -42,6 +63,8 @@ $.fn.dankMeme = function () {
                 }).addClass("z-depth-1");
                 c.div.append(c.p, c.img);
                 c.memeDiv.append(c.div);
+                t.memePush.title = t.rand.title;
+                t.memePush.img = t.rand.images[0].link;
             } else {
                 c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
 
@@ -70,6 +93,7 @@ $.fn.dankMeme = function () {
 
         $.ajax(settings).done(function (response) {
             t.results = response.list;
+            t.urbanPush = t.saveObject.urbanCall;
             console.log(t.results);
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             console.log(t.rand);
@@ -85,12 +109,14 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("rainy-ashville-gradient z-depth-1");
             c.urbanDiv.append(c.head, c.p);
-
-        })
-    }
+            t.urbanPush.definition = t.rand.definition;
+            t.urbanPush.word = t.rand.word;
+            t.urbanPush.author = t.rand.author;
+        });
+    };
 
     // Write more API call functions here
-    t.wordsCall = function (){ //oxford dictionary api call
+    t.wordsCall = function () { //oxford dictionary api call
         t.getInput();
         var settings = {
             "async": true,
@@ -98,14 +124,15 @@ $.fn.dankMeme = function () {
             "url": "https://wordsapiv1.p.mashape.com/words/" + t.input,
             "method": "GET",
             "headers": {
-              "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
+                "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
             }
-          };
-          
-          $.ajax(settings).done(function (response) {
+        };
+
+        $.ajax(settings).done(function (response) {
             console.log(response);
             console.log(response.results);
             t.results = response.results;
+            t.wordsPush = t.saveObject.wordsCall;
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             console.log(t.rand);
             var c = t.containers();
@@ -120,20 +147,57 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("morpheus-den-gradient z-depth-1");
             c.wordDiv.append(c.head, c.p);
-          });
-    }
+            t.wordsPush.definition = t.rand.definition;
+            t.wordsPush.word = t.input;
+            t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
+        });
+    };
 
-    t.cleanUp = function(){ //add clears to this
+    t.gifCall = function () {
+        var c = t.containers();
+        var queryURL = "https://api.giphy.com/v1/gifs/random?q=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
+        t.gifPush = t.saveObject.gifCall;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            t.results = response.data;
+
+            t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
+
+            c.gifDiv.attr({
+                "class": "my-2 mx-2 float-left"
+            });
+            c.img.attr({
+                "src": t.results.images.fixed_height_still.url,
+                "class": "gif",
+                "data-state": "still",
+                "data-still": t.results.images.fixed_height_still.url,
+                "data-animate": t.results.images.fixed_height.url
+            });
+            c.gifDiv.append(c.img);
+            $("#gif-holder").append(c.gifDiv);
+            t.gifPush.src = t.results.images.fixed_height_still.url;
+            t.gifPush.dataStill = t.results.images.fixed_height_still.url;
+            t.gifPush.dataAnimate = t.results.images.fixed_height.url;
+        });
+    };
+
+
+    t.cleanUp = function () { //add clears to this
 
         var c = t.containers();
         $("#input-word").val("");
         c.urbanDiv.html("");
         c.memeDiv.html("");
         c.wordDiv.html("");
+        $("#gif-holder").html("");
+        console.log(t.saveObject);
     }
 
 
-    t.containers = function(){ //initialize jquery containers here
+    t.containers = function () { //initialize jquery containers here
 
         var c = this;
         c.div = $("<div>");
@@ -143,15 +207,16 @@ $.fn.dankMeme = function () {
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
         c.wordDiv = $("#word");
-        return c; //returning container function data so that we can access it
+        c.gifDiv = $("<div>");
+        return c; //returning "container" function data so that we can access it
 
     }
 
-    t.getInput = function(){ //nothing needs to be added unless we want multiple inputs
+    t.getInput = function () { //nothing needs to be added unless we want multiple inputs
         t.input = $("#input-word").val().trim();
 
     }
-     
+
     return t; //returning "this" dankmeme funciton allowing us to access all functions inside
 
 };
@@ -164,13 +229,25 @@ $(document).ready(function () {
         dank.urbanCall();
         // Call more API functions here
         dank.wordsCall();
+        dank.gifCall();
         dank.cleanUp();
 
 
     })
 
-    $("#clear").on("click", function(){
+    $("#clear").on("click", function () {
         dank.cleanUp();
+    });
+
+    $("body").on("click", ".gif", function () {
+        var state = $(this).attr("data-state");
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
     });
 });
 
