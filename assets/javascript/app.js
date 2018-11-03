@@ -90,8 +90,37 @@ $.fn.dankMeme = function () {
     }
 
     // Write more API call functions here
-    t.oxfordCall = function (){ //oxford dictionary api call
-
+    t.wordsCall = function (){ //oxford dictionary api call
+        t.getInput();
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://wordsapiv1.p.mashape.com/words/" + t.input,
+            "method": "GET",
+            "headers": {
+              "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
+            }
+          };
+          
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+            console.log(response.results);
+            t.results = response.results;
+            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
+            console.log(t.rand);
+            var c = t.containers();
+            c.p.text("[DEFINITION] " + t.rand.definition).css({
+                "padding-left": "10px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("blue-gradient z-depth-1");
+            c.head.text(t.input + " Part of Speech: " + t.rand.partOfSpeech).css({
+                "padding-left": "5px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("morpheus-den-gradient z-depth-1");
+            c.wordDiv.append(c.head, c.p);
+          });
     }
 
     t.cleanUp = function(){ //add clears to this
@@ -100,6 +129,7 @@ $.fn.dankMeme = function () {
         $("#input-word").val("");
         c.urbanDiv.html("");
         c.memeDiv.html("");
+        c.wordDiv.html("");
     }
 
 
@@ -112,6 +142,7 @@ $.fn.dankMeme = function () {
         c.head = $("<h3>");
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
+        c.wordDiv = $("#word");
         return c; //returning container function data so that we can access it
 
     }
@@ -132,7 +163,7 @@ $(document).ready(function () {
         dank.memeCall();
         dank.urbanCall();
         // Call more API functions here
-
+        dank.wordsCall();
         dank.cleanUp();
 
 
