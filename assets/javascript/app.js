@@ -166,12 +166,9 @@ $.fn.dankMeme = function () {
 
             t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
 
-            c.gifDiv.attr({
-                "class": "my-2 mx-2 float-left"
-            });
             c.img.attr({
                 "src": t.results.images.fixed_height_still.url,
-                "class": "gif",
+                "class": "gif img-fluid",
                 "data-state": "still",
                 "data-still": t.results.images.fixed_height_still.url,
                 "data-animate": t.results.images.fixed_height.url

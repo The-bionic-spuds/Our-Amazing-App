@@ -21,105 +21,108 @@
 <body>
     <!-- Main Bootstrap Search -->
     <!-- Jumbotron for Title -->
-    <div class="jumbotron morpheus-den-gradient title" style="color: white;">
-        <h1 class="text-center">
+        <div class="jumbotron morpheus-den-gradient title" style="color: white;">
+            <h1 class="text-center">
 
-            <strong style="font-family: Poor Story;" class="display-3"> Dank Search</strong>
+                <strong style="font-family: Poor Story;" class="display-3"> Dank Search</strong>
 
-        </h1>
-    </div>
-
-    <!-- Row for Searching -->
-
-    <!-- Bouncing Images -->
-    <div id="wrapper">
-        <li><img class="rotate" src="assets/images/doritochip.png" style="width: 50px;"></li>
-        <li><img src="assets/images/mtdewcan.png" style="width: 50px;"></li>
-        <li><img class="rotate" src="assets/images/mtndewlogo.png" style="width: 50px;"></li>
-        <li><img src="assets/images/doritosbag.png" style="width: 50px;"></li>
-        <li><img class="rotate" src="assets/images/doritochip.png" style="width: 50px;"></li>
-        <li><img src="assets/images/thomasthetank.png" style="width: 50px;"></li>
-        <li><img class="rotate" src="assets/images/mtdewcan.png" style="width: 50px;"></li>
-        <li><img src="assets/images/mtndewlogo.png" style="width: 50px;"></li>
-        <li><img class="rotate" src="assets/images/doritosbag.png" style="width: 50px;"></li>
-        <li><img src="assets/images/doritochip.png" style="width: 50px;"></li>
-        <li><img class="rotate" src="assets/images/thomasthetank.png" style="width: 50px;"></li>
-        <li><img src="assets/images/thomasthetank.png" style="width: 50px;"></li>
+            </h1>
+        </div>
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md"></div>
-                <br>
-                <br>
-                <br>
-                <br>
+        <!-- Row for Searching -->
 
-                <div class="col-sm-12">
+        <!-- Bouncing Images -->=
 
-                    <!-- Create an HTML Form for handling the inputs-->
-                    <form>
-                        <div class="form-group">
-                            <label for="input-word">Enter Word</label>
-                            <input type="text" class="form-control" id="input-word" placeholder="Dank">
-                        </div>
-                </div>
-            </div>
+            <div id="wrapper">
+                <li><img class="rotate" src="assets/images/doritochip.png" style="width: 50px;"></li>
+                <li><img src="assets/images/mtdewcan.png" style="width: 50px;"></li>
+                <li><img class="rotate" src="assets/images/mtndewlogo.png" style="width: 50px;"></li>
+                <li><img src="assets/images/doritosbag.png" style="width: 50px;"></li>
+                <li><img class="rotate" src="assets/images/doritochip.png" style="width: 50px;"></li>
+                <li><img src="assets/images/thomasthetank.png" style="width: 50px;"></li>
+                <li><img class="rotate" src="assets/images/mtdewcan.png" style="width: 50px;"></li>
+                <li><img src="assets/images/mtndewlogo.png" style="width: 50px;"></li>
+                <li><img class="rotate" src="assets/images/doritosbag.png" style="width: 50px;"></li>
+                <li><img src="assets/images/doritochip.png" style="width: 50px;"></li>
+                <li><img class="rotate" src="assets/images/thomasthetank.png" style="width: 50px;"></li>
+                <li><img src="assets/images/thomasthetank.png" style="width: 50px;"></li>
 
+            <div class="container">
+                <div class="row">
+                    <div class="col-md"></div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
 
-            <!-- Create the text box for capturing the search term-->
+                    <div class="col-sm-12">
 
-            <!-- Here we have our final submit button -->
-            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-            <button type="clear" class="btn btn-primary" id="clear">Clear</button>
-
-            </form>
-            <!-- This row will handle all of the retrieved articles -->
-            <div class="row">
-                <div class="col-md-4" id="meme-holder"></div>
-                <div class="col-md-4" id="definitions">
-                    <div class="row">
-                        <div class="col-md-12" id="urban"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" id="word"></div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-4" id="gif-holder"></div>
-
-
-
-            <!-- Modal Start -->
-            <div class="modal fade" id="startGame" tabindex="-1" role="dialog" aria-labelledby="startGameLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title text-center" id="startGameLabel">Rock Paper Scissors - Multiplayer</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div id="instructions" class="bg-light modal-body">
-                            <div class="d-flex justify-content-center">
-                                <form class="modal-footer form-inline">
-                                    <label for="name" class="sr-only">Name:</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter player's name">
-                                    <button id="lego" class="btn btn-info" type="button" data-dismiss="modal">Enter</button>
-                                </form>
+                        <!-- Create an HTML Form for handling the inputs-->
+                        <form>
+                            <div class="form-group">
+                                <label for="input-word">Enter Word</label>
+                                <input type="text" class="form-control" id="input-word" placeholder="Dank">
                             </div>
-                            <br />
-                            <h3><strong>Instructions:</strong></h3>
-                            <p>This is a 2 player Rock-Paper-Scissors game. You can only start playing once there are 2
-                                players online.</p>
+                    </div>
+                </div>
+
+
+                <!-- Create the text box for capturing the search term-->
+
+                <!-- Here we have our final submit button -->
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                <button type="clear" class="btn btn-primary" id="clear">Clear</button>
+
+                </form>
+                <!-- This row will handle all of the retrieved articles -->
+                <div class="row">
+                    <div class="col-md-4" id="meme-holder"></div>
+                    <div class="col-md-4" id="definitions">
+                        <div class="row">
+                            <div class="col-md-12" id="urban"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="word"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="gif-holder"></div>
+
+                </div>
+
+
+
+                <!-- Modal Start -->
+                <div class="modal fade" id="startGame" tabindex="-1" role="dialog" aria-labelledby="startGameLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-center" id="startGameLabel">Rock Paper Scissors -
+                                    Multiplayer</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div id="instructions" class="bg-light modal-body">
+                                <div class="d-flex justify-content-center">
+                                    <form class="modal-footer form-inline">
+                                        <label for="name" class="sr-only">Name:</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Enter player's name">
+                                        <button id="lego" class="btn btn-info" type="button" data-dismiss="modal">Enter</button>
+                                    </form>
+                                </div>
+                                <br />
+                                <h3><strong>Instructions:</strong></h3>
+                                <p>This is a 2 player Rock-Paper-Scissors game. You can only start playing once there
+                                    are 2
+                                    players online.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <!-- Optional JavaScript -->
 
