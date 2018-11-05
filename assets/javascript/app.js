@@ -219,6 +219,58 @@ $.fn.dankMeme = function () {
 };
 $(document).ready(function () {
 
+
+
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyA2A9okIthqpQ4v0lyEKLbsSrW3ShPPtx0",
+        authDomain: "dank-memes-recent.firebaseapp.com",
+        databaseURL: "https://dank-memes-recent.firebaseio.com",
+        projectId: "dank-memes-recent",
+        storageBucket: "dank-memes-recent.appspot.com",
+        messagingSenderId: "895419472859"
+    };
+    firebase.initializeApp(config);
+
+    // Create a variable to reference the database
+    var database = firebase.database();
+
+    // Capture Button Click
+    $("#submit").on("click", function (event) {
+        event.preventDefault();
+
+        // Grabs user input
+        var inputWord = $("#input-word").val().trim();
+
+        // Creates local "temporary" object for holding output
+        var newWord = {
+            inputWord: inputWord
+           
+        };
+
+        // Uploads data to the database
+        database.ref().push(newWord);
+
+        // Logs everything to console
+        console.log(newWord.inputWord);
+       
+    });
+
+    // 3. Create Firebase event for adding outputs to the database
+    database.ref().on("child_added", function (childSnapshot) {
+        console.log(childSnapshot.val());
+
+        // Store everything into a variable.
+        var inputWord = childSnapshot.val().inputWord;
+      
+
+        // Employee Info
+        console.log(inputWord);
+    });
+
+
+
+
     var dank = $(window).dankMeme();
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
@@ -253,11 +305,11 @@ $(document).ready(function () {
 
 var images = ["assets/images/doritochip.png", "assets/images/doritosbag.png", "./assets/images/mtdewcan.png", "./assets/images/mtndewlogo.png", "./assets/images/thomasthetank.png"];
 
-function setDankImages () {
+function setDankImages() {
     for (var i = 0; i < images.length; i++) {
         var dank = $("<img>");
         dank.attr("src", images[i]);
-        dank.attr("id","img-" + i);
+        dank.attr("id", "img-" + i);
         dank.attr("height", "50");
         dank.attr("margin-left", "50px");
         dank.addClass("ml-5");
@@ -269,14 +321,14 @@ setDankImages();
 
 // Code for bouncing images.
 
-$.fn.bounce = function(options) {
-    
+$.fn.bounce = function (options) {
+
     var settings = $.extend({
         speed: 10
     }, options);
 
-    return $(this).each(function() {
-        
+    return $(this).each(function () {
+
         var $this = $(this),
             $parent = $this.parent(),
             height = $parent.height(),
@@ -295,8 +347,8 @@ $.fn.bounce = function(options) {
             'y': vectorY
         });
 
-        var move = function($e) {
-            
+        var move = function ($e) {
+
             var offset = $e.offset(),
                 width = $e.width(),
                 height = $e.height(),
@@ -323,23 +375,23 @@ $.fn.bounce = function(options) {
                 'x': vector.x,
                 'y': vector.y
             });
-            
-            setTimeout(function() {
+
+            setTimeout(function () {
                 move($e);
             }, 50);
-            
+
         };
-        
+
         move($this);
     });
 
 };
 
-$(function() {
+$(function () {
     $('#wrapper li').bounce({
         'speed': 7
     });
 });
 
 
-// End Dank Images Code
+    // End Dank Images Code 
