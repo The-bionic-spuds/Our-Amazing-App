@@ -155,7 +155,7 @@ $.fn.dankMeme = function () {
 
     t.gifCall = function () {
         var c = t.containers();
-        var queryURL = "https://api.giphy.com/v1/gifs/random?q=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
+        var queryURL = "https://api.giphy.com/v1/gifs/random?tag=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
         t.gifPush = t.saveObject.gifCall;
         $.ajax({
             url: queryURL,
