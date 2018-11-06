@@ -22,7 +22,7 @@ $.fn.dankMeme = function () {
             dataStill: "",
             dataAnimate: ""
         }
-    }
+    };
 
     t.memeCall = function () {
         t.getInput();
@@ -41,30 +41,49 @@ $.fn.dankMeme = function () {
             console.log(t.results);
             t.memePush = t.saveObject.memeCall;
             t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
-            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
-            var c = t.containers();;
 
+            function randomize() {
+                rand = t.results[Math.floor(Math.random() * t.results.length)];
+                return rand;
+            }
+            t.rand = randomize();
+            var c = t.containers();
+            t.memePush.title = t.rand.title;
+            var randomImage = t.rand.images[0].link;
+            var imageData = randomImage.split(".").pop()
+            function thisImage() {
+                if (randomImage != -1 && imageData != "mp4") {
+                    var image = t.rand.images[0].link;
+                    return image;
+                } else if (imageData === "mp4") {
+                    t.rand = randomize();
+                    thisImage();
+                } else {
+                    var image = t.rand.gifv;
+                    return image;
+                };
+            };
+            t.memePush.img = thisImage();
             if (t.results.length > 0) {
                 c.div.attr({
                     "width": "300px",
                     "height": "auto"
                 });
 
-                c.p.text(t.rand.title).addClass(t.colorPick + "-gradient z-depth-1").css({
+                c.p.text(t.memePush.title).addClass(t.colorPick + "-gradient z-depth-1").css({
                     "padding": "auto 5px auto 5px",
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
                 });
                 c.img.attr({
-                    "src": t.rand.images[0].link,
+                    "src": t.memePush.img,
                     "class": "img-fluid"
 
                 }).addClass("z-depth-1");
+                console.log("This is the image", c.img);
                 c.div.append(c.p, c.img);
                 c.memeDiv.append(c.div);
-                t.memePush.title = t.rand.title;
-                t.memePush.img = t.rand.images[0].link;
             } else {
                 c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
 
@@ -78,7 +97,8 @@ $.fn.dankMeme = function () {
 
                 }).addClass("z-depth-1");
 
-                c.memeDiv.append(c.p, c.img);
+                c.memeDiv.append(c.p)
+                c.memeDiv.append(c.img);
             };
         });
     }
@@ -93,25 +113,23 @@ $.fn.dankMeme = function () {
 
         $.ajax(settings).done(function (response) {
             t.results = response.list;
-            t.urbanPush = t.saveObject.urbanCall;
-            console.log(t.results);
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
-            console.log(t.rand);
+            t.urbanPush = t.saveObject.urbanCall;
+            t.urbanPush.definition = t.rand.definition;
+            t.urbanPush.word = t.rand.word;
+            t.urbanPush.author = t.rand.author;
             var c = t.containers();
-            c.p.text("[URBAN DEFINITION] " + t.rand.definition).css({
+            c.p.text("[URBAN DEFINITION] " + t.urbanPush.definition).css({
                 "padding-left": "10px",
                 "color": "white",
                 "font-family": "Poor Story"
             }).addClass("lady-lips-gradient z-depth-1");
-            c.head.text(t.rand.word + " by: " + t.rand.author).css({
+            c.head.text(t.urbanPush.word + " by: " + t.urbanPush.author).css({
                 "padding-left": "5px",
                 "color": "white",
                 "font-family": "Poor Story"
             }).addClass("rainy-ashville-gradient z-depth-1");
             c.urbanDiv.append(c.head, c.p);
-            t.urbanPush.definition = t.rand.definition;
-            t.urbanPush.word = t.rand.word;
-            t.urbanPush.author = t.rand.author;
         });
     };
 
@@ -132,30 +150,30 @@ $.fn.dankMeme = function () {
             console.log(response);
             console.log(response.results);
             t.results = response.results;
-            t.wordsPush = t.saveObject.wordsCall;
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
+            t.wordsPush = t.saveObject.wordsCall;
+            t.wordsPush.definition = t.rand.definition;
+            t.wordsPush.word = t.input;
+            t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
             console.log(t.rand);
             var c = t.containers();
-            c.p.text("[DEFINITION] " + t.rand.definition).css({
+            c.p.text("[DEFINITION] " + t.wordsPush.definition).css({
                 "padding-left": "10px",
                 "color": "white",
                 "font-family": "Poor Story"
             }).addClass("blue-gradient z-depth-1");
-            c.head.text(t.input + " Part of Speech: " + t.rand.partOfSpeech).css({
+            c.head.text(t.wordsPush.word + " Part of Speech: " + t.wordsPush.partOfSpeech).css({
                 "padding-left": "5px",
                 "color": "white",
                 "font-family": "Poor Story"
             }).addClass("morpheus-den-gradient z-depth-1");
             c.wordDiv.append(c.head, c.p);
-            t.wordsPush.definition = t.rand.definition;
-            t.wordsPush.word = t.input;
-            t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
         });
     };
 
     t.gifCall = function () {
         var c = t.containers();
-        var queryURL = "https://api.giphy.com/v1/gifs/random?q=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
+        var queryURL = "https://api.giphy.com/v1/gifs/random?tag=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
         t.gifPush = t.saveObject.gifCall;
         $.ajax({
             url: queryURL,
@@ -163,35 +181,35 @@ $.fn.dankMeme = function () {
         }).then(function (response) {
             console.log(response);
             t.results = response.data;
-
-            t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
-
-            c.img.attr({
-                "src": t.results.images.fixed_height_still.url,
-                "class": "gif img-fluid",
-                "data-state": "still",
-                "data-still": t.results.images.fixed_height_still.url,
-                "data-animate": t.results.images.fixed_height.url
-            });
-            c.gifDiv.append(c.img);
-            $("#gif-holder").append(c.gifDiv);
             t.gifPush.src = t.results.images.fixed_height_still.url;
             t.gifPush.dataStill = t.results.images.fixed_height_still.url;
             t.gifPush.dataAnimate = t.results.images.fixed_height.url;
+            t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
+            c.img.attr({
+                "src": t.gifPush.src,
+                "class": "gif img-fluid",
+                "data-state": "still",
+                "data-still": t.gifPush.dataStill,
+                "data-animate": t.gifPush.dataAnimate
+            });
+            c.gifDiv.append(c.img);
+            $("#gif-holder").append(c.gifDiv);
+
         });
     };
-
+    t.clearInput = function () {
+        $("#input-word").val("");
+    };
 
     t.cleanUp = function () { //add clears to this
 
         var c = t.containers();
-        $("#input-word").val("");
         c.urbanDiv.html("");
         c.memeDiv.html("");
         c.wordDiv.html("");
-        $("#gif-holder").html("");
+        c.gifDiv.html("");
         console.log(t.saveObject);
-    }
+    };
 
 
     t.containers = function () { //initialize jquery containers here
@@ -204,7 +222,7 @@ $.fn.dankMeme = function () {
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
         c.wordDiv = $("#word");
-        c.gifDiv = $("<div>");
+        c.gifDiv = $("#gif-holder");
         return c; //returning "container" function data so that we can access it
 
     }
@@ -272,15 +290,31 @@ $(document).ready(function () {
 
 
     var dank = $(window).dankMeme();
+    var ourJSON;
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
+        dank.cleanUp();
         dank.memeCall();
         dank.urbanCall();
         // Call more API functions here
         dank.wordsCall();
         dank.gifCall();
-        dank.cleanUp();
+        dank.clearInput();
+        setTimeout(function () {
+            ourJSON = JSON.stringify(dank.saveObject);
+            console.log(ourJSON);
+            if ($("#meme-holder div").children().last().is("img")) {
+                console.log("Success");
+            } else {
+                var img = $('<img>');
+                img.attr({
+                    "src": dank.saveObject.memeCall.img,
+                    "class": "img-fluid"
+                }).addClass("z-depth-1");
 
+                $("#meme-holder div").append(img);
+            }
+        }, 500);
 
     })
 
