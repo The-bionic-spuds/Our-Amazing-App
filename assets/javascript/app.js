@@ -105,7 +105,7 @@ $.fn.dankMeme = function () {
     t.urbanCall = function () {
         t.getInput();
         var settings = {
-            "url": "https://api.urbandictionary.com/v0/define?term=" + t.input,
+            "url": "http://api.urbandictionary.com/v0/define?term=" + t.input,
             "method": "GET"
         };
 
