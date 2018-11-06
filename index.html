@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+ 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -21,6 +21,7 @@
 <body>
     <!-- Main Bootstrap Search -->
     <!-- Jumbotron for Title -->
+    <div class="row">
     <div class="jumbotron morpheus-den-gradient title" style="color: white;">
         <h1 class="text-center">
 
@@ -28,69 +29,126 @@
 
         </h1>
     </div>
+</div>
 
     <!-- Row for Searching -->
 
-    <div class="container">
-        <div class="row">
-            <div class="dankImages col-md" id="chipImg"></div>
-            <br>
-            <br>
-            <br>
-            <br>
+    <!-- Bouncing Images -->=
+    <div class="row">
+        <div id="wrapper">
 
-            <div class="col-sm-12">
+            <li><img class="rotate" src="assets/images/doritochip.png" style="width: 50px;"></li>
+            <li><img src="assets/images/mtdewcan.png" style="width: 50px;"></li>
+            <li><img class="rotate" src="assets/images/mtndewlogo.png" style="width: 50px;"></li>
+            <li><img src="assets/images/doritosbag.png" style="width: 50px;"></li>
+            <li><img class="rotate" src="assets/images/doritochip.png" style="width: 50px;"></li>
+            <li><img src="assets/images/thomasthetank.png" style="width: 50px;"></li>
+            <li><img class="rotate" src="assets/images/mtdewcan.png" style="width: 50px;"></li>
+            <li><img src="assets/images/mtndewlogo.png" style="width: 50px;"></li>
+            <li><img class="rotate" src="assets/images/doritosbag.png" style="width: 50px;"></li>
+            <li><img src="assets/images/doritochip.png" style="width: 50px;"></li>
+            <li><img class="rotate" src="assets/images/thomasthetank.png" style="width: 50px;"></li>
+            <li><img src="assets/images/thomasthetank.png" style="width: 50px;"></li>
 
-                <!-- Create an HTML Form for handling the inputs-->
-                <form>
-                    <div class="form-group">
-                        <label for="input-word">Enter Word</label>
-                        <input type="text" class="form-control" id="input-word" placeholder="Dank">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md"></div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <div class="col-sm-12">
+
+                        <!-- Create an HTML Form for handling the inputs-->
+                        <form>
+                            <div class="form-group">
+                                <label for="input-word">Enter Word</label>
+                                <input type="text" class="form-control" id="input-word" placeholder="Dank">
+                            </div>
                     </div>
+                </div>
+
+
+                <!-- Create the text box for capturing the search term-->
+
+                <!-- Here we have our final submit button -->
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                <button type="clear" class="btn btn-primary" id="clear">Clear</button>
+
+                </form>
+                <!-- This row will handle all of the retrieved articles -->
+                <div class="row">
+                    <div class="col-md-4" id="meme-holder"></div>
+                    <div class="col-md-4" id="definitions">
+                        <div class="row">
+                            <div class="col-md-12" id="urban"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="word"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="gif-holder"></div>
+
+                </div>
+
+
+
+                <!-- Modal Start -->
+                <div class="modal fade" id="startGame" tabindex="-1" role="dialog" aria-labelledby="startGameLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-center" id="startGameLabel">Rock Paper Scissors -
+                                    Multiplayer</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div id="instructions" class="bg-light modal-body">
+                                <div class="d-flex justify-content-center">
+                                    <form class="modal-footer form-inline">
+                                        <label for="name" class="sr-only">Name:</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Enter player's name">
+                                        <button id="lego" class="btn btn-info" type="button" data-dismiss="modal">Enter</button>
+                                    </form>
+                                </div>
+                                <br />
+                                <h3><strong>Instructions:</strong></h3>
+                                <p>This is a 2 player Rock-Paper-Scissors game. You can only start playing once there
+                                    are 2
+                                    players online.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Optional JavaScript -->
 
 
-        <!-- Create the text box for capturing the search term-->
-
-        <!-- Here we have our final submit button -->
-        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-        <button type="clear" class="btn btn-primary" id="clear">Clear</button>
-
-        </form>
-        <!-- This row will handle all of the retrieved articles -->
-        <div class="row">
-            <div class="col-md-4" id="meme-holder"></div>
-            <div class="col-md-4" id="definitions">
-                <div class="row">
-                    <div class="col-md-12" id="urban"></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12" id="word"></div>
-                </div>
-            </div>
-
-        </div>
-        <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Footer Region -->
 
+    <!-- jQuery JS -->
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 
-        <!-- Footer Region -->
+    <!--Firebase-->
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+    <!-- Code to the JavaScript File -->
+    <script src="assets/javascript/app.js"></script>
 
-        <!-- jQuery JS -->
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-
-        <!-- Code to the JavaScript File -->
-        <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>
