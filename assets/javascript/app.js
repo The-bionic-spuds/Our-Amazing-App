@@ -39,17 +39,10 @@ $.fn.dankMeme = function () {
         $.ajax(settings).done(function (response) {
             t.results = response.data;
             console.log(t.results);
-            t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
-            function randmomize(){
-                t.rand = t.results[Math.floor(Math.random() * t.results.length)];
-                return t.rand;
-            }
-            randmomize();
             t.memePush = t.saveObject.memeCall;
+            t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
+            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             var c = t.containers();;
-            t.memePush.title = t.rand.title;
-            t.memePush.img = t.rand.images[0].link || t.rand.gifv;
-            var memeImage = t.memePush.img;
 
             if (t.results.length > 0) {
                 c.div.attr({
@@ -57,47 +50,35 @@ $.fn.dankMeme = function () {
                     "height": "auto"
                 });
 
-                c.p.text(t.memePush.title).addClass(t.colorPick + "-gradient z-depth-1").css({
+                c.p.text(t.rand.title).addClass(t.colorPick + "-gradient z-depth-1").css({
                     "padding": "auto 5px auto 5px",
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
                 });
-                checkArr = memeImage.split(".").pop();
-                function checkData (){
-                    if (checkArr !== "mp4") {
-                        t.image()
-                    } else {
-                        randmomize();
-                        checkData();
-                    }
-                }
+                c.img.attr({
+                    "src": t.rand.images[0].link,
+                    "class": "img-fluid"
 
-                t.image = function(){
-                    this.c.img.attr({
-                        "src": t.memePush.img,
-                        "class": "img-fluid"
-                    }).addClass("z-depth-1");
-                }
-                checkData();
-                c.div.append(this.c.p, this.c.img);
+                }).addClass("z-depth-1");
+                c.div.append(c.p, c.img);
                 c.memeDiv.append(c.div);
-                
-                
+                t.memePush.title = t.rand.title;
+                t.memePush.img = t.rand.images[0].link;
             } else {
-                this.c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
+                c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
 
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
                 });
-                this.c.img.attr({
+                c.img.attr({
                     "src": "assets/images/tenor.png",
                     "class": "img-fluid"
 
                 }).addClass("z-depth-1");
 
-                c.memeDiv.append(this.c.p, this.c.img);
+                c.memeDiv.append(c.p, c.img);
             };
         });
     }
@@ -205,10 +186,10 @@ $.fn.dankMeme = function () {
 
         var c = t.containers();
         $("#input-word").val("");
-        c.memeDiv.html("");
         c.urbanDiv.html("");
+        c.memeDiv.html("");
         c.wordDiv.html("");
-        c.gifDiv.html("");
+        $("#gif-holder").html("");
         console.log(t.saveObject);
     }
 
@@ -223,7 +204,7 @@ $.fn.dankMeme = function () {
         c.memeDiv = $("#meme-holder");
         c.urbanDiv = $("#urban");
         c.wordDiv = $("#word");
-        c.gifDiv = $("#gif-holder");
+        c.gifDiv = $("<div>");
         return c; //returning "container" function data so that we can access it
 
     }
@@ -241,11 +222,11 @@ $(document).ready(function () {
     var dank = $(window).dankMeme();
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
+        dank.memeCall();
         dank.urbanCall();
         // Call more API functions here
         dank.wordsCall();
         dank.gifCall();
-        dank.memeCall();
         dank.cleanUp();
 
 
