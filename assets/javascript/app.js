@@ -40,23 +40,17 @@ $.fn.dankMeme = function () {
             t.results = response.data;
             console.log(t.results);
             t.memePush = t.saveObject.memeCall;
-            t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
-
-            function randomize() {
-                rand = t.results[Math.floor(Math.random() * t.results.length)];
-                return rand;
-            }
-            t.rand = randomize();
-            var c = t.containers();
-            t.memePush.title = t.rand.title;
+            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             var randomImage = t.rand.images[0].link;
-            var imageData = randomImage.split(".").pop()
+            var imageData = randomImage.split(".").pop();
+
             function thisImage() {
-                if (randomImage != -1 && imageData != "mp4") {
+                if (randomImage && imageData != "mp4") {
                     var image = t.rand.images[0].link;
+                    t.memePush.title = t.rand.title;
                     return image;
                 } else if (imageData === "mp4") {
-                    t.rand = randomize();
+                    t.rand = t.results[Math.floor(Math.random() * t.results.length)]
                     thisImage();
                 } else {
                     var image = t.rand.gifv;
@@ -64,42 +58,6 @@ $.fn.dankMeme = function () {
                 };
             };
             t.memePush.img = thisImage();
-            if (t.results.length > 0) {
-                c.div.attr({
-                    "width": "300px",
-                    "height": "auto"
-                });
-
-                c.p.text(t.memePush.title).addClass(t.colorPick + "-gradient z-depth-1").css({
-                    "padding": "auto 5px auto 5px",
-                    "text-align": "center",
-                    "color": "white",
-                    "font-family": "Poor Story"
-                });
-                c.img.attr({
-                    "src": t.memePush.img,
-                    "class": "img-fluid"
-
-                }).addClass("z-depth-1");
-                console.log("This is the image", c.img);
-                c.div.append(c.p, c.img);
-                c.memeDiv.append(c.div);
-            } else {
-                c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
-
-                    "text-align": "center",
-                    "color": "white",
-                    "font-family": "Poor Story"
-                });
-                c.img.attr({
-                    "src": "assets/images/tenor.png",
-                    "class": "img-fluid"
-
-                }).addClass("z-depth-1");
-
-                c.memeDiv.append(c.p)
-                c.memeDiv.append(c.img);
-            };
         });
     }
 
@@ -117,19 +75,7 @@ $.fn.dankMeme = function () {
             t.urbanPush = t.saveObject.urbanCall;
             t.urbanPush.definition = t.rand.definition;
             t.urbanPush.word = t.rand.word;
-            t.urbanPush.author = t.rand.author;
-            var c = t.containers();
-            c.p.text("[URBAN DEFINITION] " + t.urbanPush.definition).css({
-                "padding-left": "10px",
-                "color": "white",
-                "font-family": "Poor Story"
-            }).addClass("lady-lips-gradient z-depth-1");
-            c.head.text(t.urbanPush.word + " by: " + t.urbanPush.author).css({
-                "padding-left": "5px",
-                "color": "white",
-                "font-family": "Poor Story"
-            }).addClass("rainy-ashville-gradient z-depth-1");
-            c.urbanDiv.append(c.head, c.p);
+            t.urbanPush.author = t.rand.author;  
         });
     };
 
@@ -156,23 +102,11 @@ $.fn.dankMeme = function () {
             t.wordsPush.word = t.input;
             t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
             console.log(t.rand);
-            var c = t.containers();
-            c.p.text("[DEFINITION] " + t.wordsPush.definition).css({
-                "padding-left": "10px",
-                "color": "white",
-                "font-family": "Poor Story"
-            }).addClass("blue-gradient z-depth-1");
-            c.head.text(t.wordsPush.word + " Part of Speech: " + t.wordsPush.partOfSpeech).css({
-                "padding-left": "5px",
-                "color": "white",
-                "font-family": "Poor Story"
-            }).addClass("morpheus-den-gradient z-depth-1");
-            c.wordDiv.append(c.head, c.p);
+           
         });
     };
 
     t.gifCall = function () {
-        var c = t.containers();
         var queryURL = "https://api.giphy.com/v1/gifs/random?tag=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
         t.gifPush = t.saveObject.gifCall;
         $.ajax({
@@ -184,19 +118,110 @@ $.fn.dankMeme = function () {
             t.gifPush.src = t.results.images.fixed_height_still.url;
             t.gifPush.dataStill = t.results.images.fixed_height_still.url;
             t.gifPush.dataAnimate = t.results.images.fixed_height.url;
-            t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
-            c.img.attr({
-                "src": t.gifPush.src,
-                "class": "gif img-fluid",
-                "data-state": "still",
-                "data-still": t.gifPush.dataStill,
-                "data-animate": t.gifPush.dataAnimate
-            });
-            c.gifDiv.append(c.img);
-            $("#gif-holder").append(c.gifDiv);
 
         });
     };
+
+    t.renderScreen = function (s) {
+        function renderMeme(){
+            var c = t.containers();
+            t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
+            if (s.memeCall.title.length > 0) {
+                c.div.attr({
+                    "width": "300px",
+                    "height": "auto"
+                });
+                console.log();
+                c.p.text(s.memeCall.title).addClass(t.colorPick + "-gradient z-depth-1").css({
+                    "padding": "auto 5px auto 5px",
+                    "text-align": "center",
+                    "color": "white",
+                    "font-family": "Poor Story"
+                });
+                debugger;
+                c.img.attr({
+                    "src": s.memeCall.img,
+                    "class": "img-fluid"
+
+                }).addClass("z-depth-1");
+                console.log("This is the image", c.img);
+                c.div.append(c.p, c.img);
+                c.memeDiv.append(c.div);
+            } else {
+                c.p.text("No memes here").addClass(t.colorPick + "-gradient z-depth-1").css({
+
+                    "text-align": "center",
+                    "color": "white",
+                    "font-family": "Poor Story"
+                });
+                c.img.attr({
+                    "src": "assets/images/tenor.png",
+                    "class": "img-fluid"
+
+                }).addClass("z-depth-1");
+
+                c.memeDiv.append(c.p)
+                c.memeDiv.append(c.img);
+            };
+        };
+        
+        function renderUrban(){
+            var c = t.containers();
+            c.p.text("[URBAN DEFINITION] " + s.urbanCall.definition).css({
+                "padding-left": "10px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("lady-lips-gradient z-depth-1");
+            c.head.text(s.urbanCall.word + " by: " + s.urbanCall.author).css({
+                "padding-left": "5px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("rainy-ashville-gradient z-depth-1");
+            c.urbanDiv.append(c.head, c.p);
+        };
+        
+        console.log(s.urbanCall.word)
+        function renderWord(){
+            var c = t.containers();
+            c.p.text("[DEFINITION] " + s.wordsCall.definition).css({
+                "padding-left": "10px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("blue-gradient z-depth-1");
+            c.head.text(s.wordsCall.word + " Part of Speech: " + s.wordsCall.partOfSpeech).css({
+                "padding-left": "5px",
+                "color": "white",
+                "font-family": "Poor Story"
+            }).addClass("morpheus-den-gradient z-depth-1");
+            c.wordDiv.append(c.head, c.p);
+        }
+        function renderGIF() {
+            var c = t.containers();
+            t.colorPick = t.colorsArr[Math.floor(Math.random() * t.colorsArr.length)]
+            c.img.attr({
+                "src": s.gifCall.src,
+                "class": "gif img-fluid",
+                "data-state": "still",
+                "data-still": s.gifCall.dataStill,
+                "data-animate": s.gifCall.dataAnimate
+            });
+            c.div.append(c.img);
+            $("#gif-holder").append(c.div);
+        }
+        setTimeout(function(){
+            renderMeme();
+        }, 50)
+        setTimeout(function(){
+            renderUrban();
+        }, 100)
+        setTimeout(function(){
+            renderWord();
+        }, 150)
+        setTimeout(function(){
+            renderGIF();
+        }, 200)
+    };
+
     t.clearInput = function () {
         $("#input-word").val("");
     };
@@ -238,6 +263,8 @@ $.fn.dankMeme = function () {
 $(document).ready(function () {
 
 
+    var dank = $(window).dankMeme();
+    // var ourJSON;
 
     // Initialize Firebase
     var config = {
@@ -254,24 +281,29 @@ $(document).ready(function () {
     var database = firebase.database();
 
     // Capture Button Click
-    $("#submit").on("click", function (event) {
+    $("body").on("click", "#publish", function (event) {
         event.preventDefault();
-
+        var name = $("#publish-name").val().trim();
+        if (name.length > 0) {
+            setTimeout(function () {
+                database.ref("/savedinfo/").child(name).push(dank.saveObject);
+                $("publish-name").val("");
+            }, 500);
+        }
         // Grabs user input
-        var inputWord = $("#input-word").val().trim();
+        // var inputWord = $("#input-word").val().trim();
 
         // Creates local "temporary" object for holding output
-        var newWord = {
-            inputWord: inputWord
-           
-        };
+        // var newSave = {
+        //     inputWord: inputWord
+
+        // };
 
         // Uploads data to the database
-        database.ref().push(newWord);
 
         // Logs everything to console
-        console.log(newWord.inputWord);
-       
+        // console.log(newWord.inputWord);
+
     });
 
     // 3. Create Firebase event for adding outputs to the database
@@ -280,7 +312,7 @@ $(document).ready(function () {
 
         // Store everything into a variable.
         var inputWord = childSnapshot.val().inputWord;
-      
+
 
         // Employee Info
         console.log(inputWord);
@@ -288,9 +320,9 @@ $(document).ready(function () {
 
 
 
+    var dataRef = database.ref("/currentData/");
+    var presenceRef = database.ref("/.info/connected");
 
-    var dank = $(window).dankMeme();
-    var ourJSON;
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
         dank.cleanUp();
@@ -300,24 +332,36 @@ $(document).ready(function () {
         dank.wordsCall();
         dank.gifCall();
         dank.clearInput();
+        // setTimeout(function () {
+        //     ourJSON = JSON.stringify(dank.saveObject);
+        //     console.log(ourJSON);
+        //     if ($("#meme-holder div").children().last().is("img")) {
+        //         console.log("Success");
+        //     } else {
+        //         var img = $('<img>');
+        //         img.attr({
+        //             "src": dank.saveObject.memeCall.img,
+        //             "class": "img-fluid"
+        //         }).addClass("z-depth-1");
+
+        //         $("#meme-holder div").append(img);
+        //     }
+        // }, 300);
         setTimeout(function () {
-            ourJSON = JSON.stringify(dank.saveObject);
-            console.log(ourJSON);
-            if ($("#meme-holder div").children().last().is("img")) {
-                console.log("Success");
-            } else {
-                var img = $('<img>');
-                img.attr({
-                    "src": dank.saveObject.memeCall.img,
-                    "class": "img-fluid"
-                }).addClass("z-depth-1");
-
-                $("#meme-holder div").append(img);
-            }
-        }, 500);
-
+           dataRef.set(dank.saveObject);
+        }, 500)
+        
     })
-
+    dataRef.on("value", function(snapshot){
+        setTimeout(function(){
+            dank.renderScreen(snapshot.val());
+        }, 550)
+        
+    })
+    presenceRef.on("value", function(){
+        dataRef.onDisconnect().remove();
+    });
+    
     $("#clear").on("click", function (e) {
         e.preventDefault();
         dank.cleanUp();
