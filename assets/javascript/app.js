@@ -356,6 +356,7 @@ $(document).ready(function () {
         // }, 500)
         
     })
+
     var dankKey = dataRef.push().getKey();
     $(document).ajaxStop(function(){
         dataRef.child(dankKey).set(dank.saveObject);
@@ -405,7 +406,7 @@ function setDankImages() {
 
 setDankImages();
 
-// Code for bouncing images.
+// Code for bouncing images
 
 $.fn.bounce = function (options) {
 
@@ -478,6 +479,3 @@ $(function () {
         'speed': 7
     });
 });
-
-
-    // End Dank Images Code 
