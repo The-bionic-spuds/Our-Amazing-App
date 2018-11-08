@@ -284,10 +284,15 @@ $(document).ready(function () {
     $("body").on("click", "#publish", function (event) {
         event.preventDefault();
         var name = $("#publish-name").val().trim();
+        var saveData = database.ref("/savedinfo/");
         if (name.length > 0) {
             setTimeout(function () {
-                database.ref("/savedinfo/").child(name).push(dank.saveObject);
-                $("publish-name").val("");
+                var saveKey = saveData.push().getKey();
+                saveData.child(saveKey).set(dank.saveObject)
+                saveData.child(saveKey).update({
+                    name: name
+                })
+                $("#publish-name").val("");
             }, 500);
         }
         // Grabs user input
@@ -322,7 +327,6 @@ $(document).ready(function () {
 
     var dataRef = database.ref("/currentData/");
     var presenceRef = database.ref("/.info/connected");
-
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
         dank.cleanUp();
@@ -352,14 +356,18 @@ $(document).ready(function () {
         // }, 500)
         
     })
+    var dankKey = dataRef.push().getKey();
     $(document).ajaxStop(function(){
-        dataRef.set(dank.saveObject);
-    })
-    dataRef.on("value", function(snapshot){
+        dataRef.child(dankKey).set(dank.saveObject);
+        
+        
+        dataRef.child(dankKey).on("value", function(snapshot){
             dank.renderScreen(snapshot.val());
+            return dankKey;
+        })
     })
     presenceRef.on("value", function(){
-        dataRef.onDisconnect().remove();
+        dataRef.child(dankKey).onDisconnect().remove();
     });
     
     $("#clear").on("click", function (e) {
