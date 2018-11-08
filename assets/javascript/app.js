@@ -388,8 +388,10 @@ $(document).ready(function () {
 
     })
 
+
     $(document).ajaxStop(function () {
         dank.cleanUp();
+
         dataRef.child(dankKey).set(dank.saveObject);
     })
 
@@ -438,7 +440,7 @@ function setDankImages() {
 
 setDankImages();
 
-// Code for bouncing images.
+// Code for bouncing images
 
 $.fn.bounce = function (options) {
 
@@ -511,6 +513,3 @@ $(function () {
         'speed': 7
     });
 });
-
-
-    // End Dank Images Code 
