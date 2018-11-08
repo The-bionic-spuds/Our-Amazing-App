@@ -347,16 +347,16 @@ $(document).ready(function () {
         //         $("#meme-holder div").append(img);
         //     }
         // }, 300);
-        setTimeout(function () {
-           dataRef.set(dank.saveObject);
-        }, 500)
+        // setTimeout(function () {
+        //    dataRef.set(dank.saveObject);
+        // }, 500)
         
     })
+    $(document).ajaxStop(function(){
+        dataRef.set(dank.saveObject);
+    })
     dataRef.on("value", function(snapshot){
-        setTimeout(function(){
             dank.renderScreen(snapshot.val());
-        }, 550)
-        
     })
     presenceRef.on("value", function(){
         dataRef.onDisconnect().remove();
