@@ -178,9 +178,9 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("rainy-ashville-gradient z-depth-1");
             c.urbanDiv.append(c.head, c.p);
+            console.log(s.urbanCall.word);
         };
         
-        console.log(s.urbanCall.word)
         function renderWord(){
             var c = t.containers();
             c.p.text("[DEFINITION] " + s.wordsCall.definition).css({
