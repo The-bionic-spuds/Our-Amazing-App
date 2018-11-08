@@ -79,8 +79,11 @@
                         <button type="clear" class="btn btn-primary" id="clear">Clear</button>
                         <button type="publish" class="btn btn-primary" id="publish">Publish</button>
                     </div>
-                    <input type="text" class="form-control" id="publish-name" placeholder="Name your publish..."
-                        maxlength="15">
+                    <input type="text" class="form-control" id="publish-name" placeholder="Name your publish..." maxlength="15">
+                    <div class="input-group-append">
+                        <button class="btn btn-info waves-effect " id="publishedBtn" type="button" data-toggle="modal"
+                            data-target="#publishModal">Published Work</button>
+                    </div>
                 </div>
 
                 </form>
@@ -133,7 +136,23 @@
             </div>
         </div>
     </div>
+    <!-- Show Published Work -->
+    <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body" id="publishWork">
 
+                </div>
+                <div class="modal-footer">
+                    <div class="form-sm input-group">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Optional JavaScript -->
 
 

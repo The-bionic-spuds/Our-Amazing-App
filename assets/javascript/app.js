@@ -38,7 +38,7 @@ $.fn.dankMeme = function () {
 
         $.ajax(settings).done(function (response) {
             t.results = response.data;
-            console.log(t.results);
+            // console.log(t.results);
             t.memePush = t.saveObject.memeCall;
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             var randomImage = t.rand.images[0].link;
@@ -75,7 +75,7 @@ $.fn.dankMeme = function () {
             t.urbanPush = t.saveObject.urbanCall;
             t.urbanPush.definition = t.rand.definition;
             t.urbanPush.word = t.rand.word;
-            t.urbanPush.author = t.rand.author;  
+            t.urbanPush.author = t.rand.author;
         });
     };
 
@@ -93,16 +93,16 @@ $.fn.dankMeme = function () {
         };
 
         $.ajax(settings).done(function (response) {
-            console.log(response);
-            console.log(response.results);
+            // console.log(response);
+            // console.log(response.results);
             t.results = response.results;
             t.rand = t.results[Math.floor(Math.random() * t.results.length)];
             t.wordsPush = t.saveObject.wordsCall;
             t.wordsPush.definition = t.rand.definition;
             t.wordsPush.word = t.input;
             t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
-            console.log(t.rand);
-           
+            // console.log(t.rand);
+
         });
     };
 
@@ -113,7 +113,7 @@ $.fn.dankMeme = function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            console.log(response);
+            // console.log(response);
             t.results = response.data;
             t.gifPush.src = t.results.images.fixed_height_still.url;
             t.gifPush.dataStill = t.results.images.fixed_height_still.url;
@@ -123,7 +123,7 @@ $.fn.dankMeme = function () {
     };
 
     t.renderScreen = function (s) {
-        function renderMeme(){
+        function renderMeme() {
             var c = t.containers();
             t.colorPick = t.colorsArr[Math.floor(Math.random() * 9)];
             if (s.memeCall.title.length > 0) {
@@ -131,20 +131,18 @@ $.fn.dankMeme = function () {
                     "width": "300px",
                     "height": "auto"
                 });
-                console.log();
                 c.p.text(s.memeCall.title).addClass(t.colorPick + "-gradient z-depth-1").css({
                     "padding": "auto 5px auto 5px",
                     "text-align": "center",
                     "color": "white",
                     "font-family": "Poor Story"
                 });
-                debugger;
                 c.img.attr({
                     "src": s.memeCall.img,
                     "class": "img-fluid"
 
                 }).addClass("z-depth-1");
-                console.log("This is the image", c.img);
+                // console.log("This is the image", c.img);
                 c.div.append(c.p, c.img);
                 c.memeDiv.append(c.div);
             } else {
@@ -164,8 +162,8 @@ $.fn.dankMeme = function () {
                 c.memeDiv.append(c.img);
             };
         };
-        
-        function renderUrban(){
+
+        function renderUrban() {
             var c = t.containers();
             c.p.text("[URBAN DEFINITION] " + s.urbanCall.definition).css({
                 "padding-left": "10px",
@@ -178,10 +176,10 @@ $.fn.dankMeme = function () {
                 "font-family": "Poor Story"
             }).addClass("rainy-ashville-gradient z-depth-1");
             c.urbanDiv.append(c.head, c.p);
-            console.log(s.urbanCall.word);
+            // console.log(s.urbanCall.word);
         };
-        
-        function renderWord(){
+
+        function renderWord() {
             var c = t.containers();
             c.p.text("[DEFINITION] " + s.wordsCall.definition).css({
                 "padding-left": "10px",
@@ -208,16 +206,16 @@ $.fn.dankMeme = function () {
             c.div.append(c.img);
             $("#gif-holder").append(c.div);
         }
-        setTimeout(function(){
+        setTimeout(function () {
             renderMeme();
         }, 50)
-        setTimeout(function(){
+        setTimeout(function () {
             renderUrban();
         }, 100)
-        setTimeout(function(){
+        setTimeout(function () {
             renderWord();
         }, 150)
-        setTimeout(function(){
+        setTimeout(function () {
             renderGIF();
         }, 200)
     };
@@ -233,7 +231,7 @@ $.fn.dankMeme = function () {
         c.memeDiv.html("");
         c.wordDiv.html("");
         c.gifDiv.html("");
-        console.log(t.saveObject);
+        // console.log(t.saveObject);
     };
 
 
@@ -279,22 +277,22 @@ $(document).ready(function () {
 
     // Create a variable to reference the database
     var database = firebase.database();
+    var saveData = database.ref("/savedinfo/");
+    var saveKey = saveData.push().getKey();
 
     // Capture Button Click
     $("body").on("click", "#publish", function (event) {
         event.preventDefault();
-        var name = $("#publish-name").val().trim();
-        var saveData = database.ref("/savedinfo/");
-        if (name.length > 0) {
-            setTimeout(function () {
-                var saveKey = saveData.push().getKey();
-                saveData.child(saveKey).set(dank.saveObject)
-                saveData.child(saveKey).update({
-                    name: name
-                })
-                $("#publish-name").val("");
-            }, 500);
+        var saveName = $("#publish-name").val().trim();
+        if (saveName.length > 0) {
+            saveData.child(saveKey).set({
+                name: saveName
+            })
+            saveData.child(`${saveKey}/${saveName}`).set(dank.saveObject)
+            $("#publish-name").val("");
         }
+
+
         // Grabs user input
         // var inputWord = $("#input-word").val().trim();
 
@@ -311,22 +309,55 @@ $(document).ready(function () {
 
     });
 
+    $("#publishWork").on("click", "button", function (e) {
+        e.preventDefault();
+        dank.cleanUp();
+        $("#publishModal").modal("toggle");
+        var id = $(this).attr("id")
+        var value = $(this).attr("value")
+        var ref = saveData.child(id);
+        ref.on("value", function (snapshot) {
+            var data = snapshot.val();
+            if (snapshot.val()) {
+                dank.renderScreen(data[value]);
+            }
+        })
+        // dank.renderScreen()
+    })
+
+    saveData.on("child_added", function (snap) {
+
+        var key = snap.val();
+        console.log(key);
+        var btn = $("<button>");
+        btn.attr({
+            class: "btn btn-secondary btn-sm",
+            id: snap.key,
+            value: key.name
+        }).text(key.name).css({
+            "width": "100%",
+            "text-align": "center"
+        });
+
+        $("#publishWork").append(btn);
+    })
     // 3. Create Firebase event for adding outputs to the database
-    database.ref().on("child_added", function (childSnapshot) {
-        console.log(childSnapshot.val());
+    // database.ref().on("child_added", function (childSnapshot) {
+    // console.log(childSnapshot.val());
 
-        // Store everything into a variable.
-        var inputWord = childSnapshot.val().inputWord;
+    // Store everything into a variable.
+    // var inputWord = childSnapshot.val().inputWord;
 
 
-        // Employee Info
-        console.log(inputWord);
-    });
+    // Employee Info
+    // console.log(inputWord);
+    // });
 
 
 
     var dataRef = database.ref("/currentData/");
     var presenceRef = database.ref("/.info/connected");
+    var dankKey = dataRef.push().getKey();
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
         dank.cleanUp();
@@ -354,22 +385,24 @@ $(document).ready(function () {
         // setTimeout(function () {
         //    dataRef.set(dank.saveObject);
         // }, 500)
-        
+
     })
-    var dankKey = dataRef.push().getKey();
-    $(document).ajaxStop(function(){
+
+    $(document).ajaxStop(function () {
+        dank.cleanUp();
         dataRef.child(dankKey).set(dank.saveObject);
-        
-        
-        dataRef.child(dankKey).on("value", function(snapshot){
-            dank.renderScreen(snapshot.val());
-            return dankKey;
-        })
     })
-    presenceRef.on("value", function(){
+
+
+    dataRef.child(dankKey).on("value", function (snapshot) {
+        if (snapshot.val()) {
+            dank.renderScreen(snapshot.val());
+        }
+    })
+    presenceRef.on("value", function () {
         dataRef.child(dankKey).onDisconnect().remove();
     });
-    
+
     $("#clear").on("click", function (e) {
         e.preventDefault();
         dank.cleanUp();
