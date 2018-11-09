@@ -40,20 +40,20 @@ $.fn.dankMeme = function () {
             t.results = response.data;
             // console.log(t.results);
             t.memePush = t.saveObject.memeCall;
-            t.rand = t.results[Math.floor(Math.random() * t.results.length)];
-            var randomImage = t.rand.images[0].link;
+            var rand = t.results[Math.floor(Math.random() * t.results.length)];
+            var randomImage = rand.images[0].link;
             var imageData = randomImage.split(".").pop();
 
             function thisImage() {
-                if (randomImage && imageData != "mp4") {
-                    var image = t.rand.images[0].link;
-                    t.memePush.title = t.rand.title;
+                if (imageData != "mp4") {
+                    var image = rand.images[0].link;
+                    t.memePush.title = rand.title;
                     return image;
                 } else if (imageData === "mp4") {
-                    t.rand = t.results[Math.floor(Math.random() * t.results.length)]
+                    rand = t.results[Math.floor(Math.random() * t.results.length)]
                     thisImage();
                 } else {
-                    var image = t.rand.gifv;
+                    var image = rand.gifv;
                     return image;
                 };
             };
@@ -281,7 +281,7 @@ $(document).ready(function () {
     var saveKey;
     var dataRef = database.ref("/currentData/");
     var presenceRef = database.ref("/.info/connected");
-    var dankKey; 
+    var dankKey;
     dankKey = dataRef.push().getKey();
     // Capture Button Click
     $("body").on("click", "#publish", function (event) {
@@ -295,22 +295,6 @@ $(document).ready(function () {
             $("#publish-name").val("");
         }
 
-
-        // Grabs user input
-        // var inputWord = $("#input-word").val().trim();
-
-        // Creates local "temporary" object for holding output
-        // var newSave = {
-        //     inputWord: inputWord
-
-        // };
-
-        // Uploads data to the database
-
-        // Logs everything to console
-        // console.log(newWord.inputWord);
-        dataRef.child(dankKey).remove();
-        dankKey = dataRef.push().getKey();
     });
 
     $("#publishWork").on("click", "button", function (e) {
@@ -326,8 +310,7 @@ $(document).ready(function () {
                 dank.renderScreen(data[value]);
             }
         })
-        dankKey = dataRef.push().getKey();
-        // dank.renderScreen()
+
     })
 
     saveData.on("child_added", function (snap) {
@@ -346,67 +329,34 @@ $(document).ready(function () {
 
         $("#publishWork").append(btn);
     })
-    // 3. Create Firebase event for adding outputs to the database
-    // database.ref().on("child_added", function (childSnapshot) {
-    // console.log(childSnapshot.val());
 
-    // Store everything into a variable.
-    // var inputWord = childSnapshot.val().inputWord;
-
-
-    // Employee Info
-    // console.log(inputWord);
-    // });
-
-
-
-    
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
+
         dank.cleanUp();
         dank.memeCall();
         dank.urbanCall();
-        // Call more API functions here
         dank.wordsCall();
         dank.gifCall();
         dank.clearInput();
-        // setTimeout(function () {
-        //     ourJSON = JSON.stringify(dank.saveObject);
-        //     console.log(ourJSON);
-        //     if ($("#meme-holder div").children().last().is("img")) {
-        //         console.log("Success");
-        //     } else {
-        //         var img = $('<img>');
-        //         img.attr({
-        //             "src": dank.saveObject.memeCall.img,
-        //             "class": "img-fluid"
-        //         }).addClass("z-depth-1");
 
-        //         $("#meme-holder div").append(img);
-        //     }
-        // }, 300);
-        // setTimeout(function () {
-        //    dataRef.set(dank.saveObject);
-        // }, 500)
         $(document).ajaxStop(function () {
             dank.cleanUp();
-    
             dataRef.child(dankKey).set(dank.saveObject);
-        })
-
-        dataRef.child(dankKey).on("value", function (snapshot) {
-            if (snapshot.val()) {
-                dank.renderScreen(snapshot.val());
-            }
         })
 
         saveKey = saveData.push().getKey();
     })
 
 
+    dataRef.child(dankKey).on("value", function (snapshot) {
+        if (snapshot.val()) {
+            dank.renderScreen(snapshot.val());
+        }
+    })
 
 
-    
+
     presenceRef.on("value", function () {
         dataRef.child(dankKey).onDisconnect().remove();
     });
