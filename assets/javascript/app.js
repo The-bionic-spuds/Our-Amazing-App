@@ -278,8 +278,11 @@ $(document).ready(function () {
     // Create a variable to reference the database
     var database = firebase.database();
     var saveData = database.ref("/savedinfo/");
-    var saveKey = saveData.push().getKey();
-
+    var saveKey;
+    var dataRef = database.ref("/currentData/");
+    var presenceRef = database.ref("/.info/connected");
+    var dankKey; 
+    dankKey = dataRef.push().getKey();
     // Capture Button Click
     $("body").on("click", "#publish", function (event) {
         event.preventDefault();
@@ -306,7 +309,8 @@ $(document).ready(function () {
 
         // Logs everything to console
         // console.log(newWord.inputWord);
-
+        dataRef.child(dankKey).remove();
+        dankKey = dataRef.push().getKey();
     });
 
     $("#publishWork").on("click", "button", function (e) {
@@ -322,6 +326,7 @@ $(document).ready(function () {
                 dank.renderScreen(data[value]);
             }
         })
+        dankKey = dataRef.push().getKey();
         // dank.renderScreen()
     })
 
@@ -335,7 +340,7 @@ $(document).ready(function () {
             id: snap.key,
             value: key.name
         }).text(key.name).css({
-            "width": "100%",
+            "width": "97%",
             "text-align": "center"
         });
 
@@ -355,9 +360,7 @@ $(document).ready(function () {
 
 
 
-    var dataRef = database.ref("/currentData/");
-    var presenceRef = database.ref("/.info/connected");
-    var dankKey = dataRef.push().getKey();
+    
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
         dank.cleanUp();
@@ -385,22 +388,25 @@ $(document).ready(function () {
         // setTimeout(function () {
         //    dataRef.set(dank.saveObject);
         // }, 500)
+        $(document).ajaxStop(function () {
+            dank.cleanUp();
+    
+            dataRef.child(dankKey).set(dank.saveObject);
+        })
 
+        dataRef.child(dankKey).on("value", function (snapshot) {
+            if (snapshot.val()) {
+                dank.renderScreen(snapshot.val());
+            }
+        })
+
+        saveKey = saveData.push().getKey();
     })
 
 
-    $(document).ajaxStop(function () {
-        dank.cleanUp();
-
-        dataRef.child(dankKey).set(dank.saveObject);
-    })
 
 
-    dataRef.child(dankKey).on("value", function (snapshot) {
-        if (snapshot.val()) {
-            dank.renderScreen(snapshot.val());
-        }
-    })
+    
     presenceRef.on("value", function () {
         dataRef.child(dankKey).onDisconnect().remove();
     });
