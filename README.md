@@ -1,14 +1,5 @@
 # Our-Amazing-App
 
-# HTML, CSS, BOOTSTRAP, JAVASCRIPT, JQUERY, TIMERS, 2 APIs (new APIs)
-# INPUT FORM, FIREBASE, CLIENT STORAGE
-# NO ALERTS, CONFIRMS, OR PROMPTS
-# MUST HAVE USER INPUT VALIDATION
-# BUILD SOMETHING AWESOME!!!
-
-# Roles: Pseudo Coder, Database Expert, API Expert, CSS Designer
-
-
 # Overview
 This amazing app provides user entertainment with some dank memes and funny definitions from Urban Dictionary.
 This app returns a trending meme and an "urban" definition of the word each time the user enters a word.
