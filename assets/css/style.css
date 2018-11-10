@@ -25,14 +25,13 @@
     height: 1000px;
 }
 
-#footer {
-    border-top: 8px solid midnightblue;
-}
 
-#Copyright {
+#footer {
     text-align: center;
     color: #fff;
-    font-size: 20px;
+    font-size: 15px;
+    height: 30px;
+    line-height: 30px;
     font-family: Poor Story;
 }
 

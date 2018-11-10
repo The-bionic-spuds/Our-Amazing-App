@@ -40,24 +40,27 @@ $.fn.dankMeme = function () {
             t.results = response.data;
             // console.log(t.results);
             t.memePush = t.saveObject.memeCall;
-            var rand = t.results[Math.floor(Math.random() * t.results.length)];
-            var randomImage = rand.images[0].link;
-            var imageData = randomImage.split(".").pop();
+            console.log(t.results);
 
             function thisImage() {
-                if (imageData != "mp4") {
-                    var image = rand.images[0].link;
-                    t.memePush.title = rand.title;
-                    return image;
-                } else if (imageData === "mp4") {
-                    rand = t.results[Math.floor(Math.random() * t.results.length)]
-                    thisImage();
+                var rand = t.results[Math.floor(Math.random() * t.results.length)];
+                var randomImage = rand.images[0].link;
+                var imageData = randomImage.split(".").pop();
+                if (randomImage){
+                    if (imageData != "mp4") {
+                        t.memePush.img = rand.images[0].link;
+                        t.memePush.title = rand.title;
+                    } else if (imageData === "mp4") {
+                        debugger;
+                        thisImage();
+                    } else {
+                        t.memePush.img = rand.gifv;
+                    };
                 } else {
-                    var image = rand.gifv;
-                    return image;
-                };
+                    thisImage();
+                }
             };
-            t.memePush.img = thisImage();
+             thisImage();
         });
     }
 
@@ -316,7 +319,6 @@ $(document).ready(function () {
     saveData.on("child_added", function (snap) {
 
         var key = snap.val();
-        console.log(key);
         var btn = $("<button>");
         btn.attr({
             class: "btn btn-secondary btn-sm",
@@ -332,20 +334,22 @@ $(document).ready(function () {
 
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
-
-        dank.cleanUp();
-        dank.memeCall();
-        dank.urbanCall();
-        dank.wordsCall();
-        dank.gifCall();
-        dank.clearInput();
-
-        $(document).ajaxStop(function () {
+        var inputTrue = $("#input-word").val();
+        if (inputTrue.length > 0) {
             dank.cleanUp();
-            dataRef.child(dankKey).set(dank.saveObject);
-        })
+            dank.memeCall();
+            dank.urbanCall();
+            dank.wordsCall();
+            dank.gifCall();
+            dank.clearInput();
 
-        saveKey = saveData.push().getKey();
+            $(document).ajaxStop(function () {
+                dank.cleanUp();
+                dataRef.child(dankKey).set(dank.saveObject);
+            })
+
+            saveKey = saveData.push().getKey();
+        }
     })
 
 
