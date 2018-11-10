@@ -51,7 +51,6 @@ $.fn.dankMeme = function () {
                         t.memePush.img = rand.images[0].link;
                         t.memePush.title = rand.title;
                     } else if (imageData === "mp4") {
-                        debugger;
                         thisImage();
                     } else {
                         t.memePush.img = rand.gifv;
