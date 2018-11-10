@@ -40,25 +40,27 @@ $.fn.dankMeme = function () {
             t.results = response.data;
             // console.log(t.results);
             t.memePush = t.saveObject.memeCall;
-
+            console.log(t.results);
 
             function thisImage() {
                 var rand = t.results[Math.floor(Math.random() * t.results.length)];
                 var randomImage = rand.images[0].link;
                 var imageData = randomImage.split(".").pop();
-                
-                if (imageData != "mp4") {
-                    var image = rand.images[0].link;
-                    t.memePush.title = rand.title;
-                    return image;
-                } else if (imageData === "mp4") {
-                    thisImage();
+                if (randomImage){
+                    if (imageData != "mp4") {
+                        t.memePush.img = rand.images[0].link;
+                        t.memePush.title = rand.title;
+                    } else if (imageData === "mp4") {
+                        debugger;
+                        thisImage();
+                    } else {
+                        t.memePush.img = rand.gifv;
+                    };
                 } else {
-                    var image = rand.gifv;
-                    return image;
-                };
+                    thisImage();
+                }
             };
-            t.memePush.img = thisImage();
+             thisImage();
         });
     }
 
@@ -317,7 +319,6 @@ $(document).ready(function () {
     saveData.on("child_added", function (snap) {
 
         var key = snap.val();
-        console.log(key);
         var btn = $("<button>");
         btn.attr({
             class: "btn btn-secondary btn-sm",
