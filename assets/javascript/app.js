@@ -25,11 +25,11 @@ $.fn.dankMeme = function () {
     };
 
     t.memeCall = function () {
-        t.getInput();
+        var i = t.getInput();
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "https://api.imgur.com/3/gallery/search/viral/year/1/?q=" + t.input,
+            "url": "https://api.imgur.com/3/gallery/search/viral/year/1/?q_all=" + i.replaced,
             "method": "GET",
             "headers": {
                 "Authorization": "Client-ID be876a4140064ba"
@@ -64,9 +64,9 @@ $.fn.dankMeme = function () {
     }
 
     t.urbanCall = function () {
-        t.getInput();
+        var i = t.getInput();
         var settings = {
-            "url": "https://api.urbandictionary.com/v0/define?term=" + t.input,
+            "url": "https://api.urbandictionary.com/v0/define?term=" + i.replaced,
             "method": "GET"
         };
 
@@ -83,11 +83,11 @@ $.fn.dankMeme = function () {
 
     // Write more API call functions here
     t.wordsCall = function () { //oxford dictionary api call
-        t.getInput();
+        var i = t.getInput();
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "https://wordsapiv1.p.mashape.com/words/" + t.input,
+            "url": "https://wordsapiv1.p.mashape.com/words/" + i.replaced,
             "method": "GET",
             "headers": {
                 "X-Mashape-Key": "T7n08c4kPwmshe44m88XtvOBxvIsp1Jf288jsntLtidNQOItVb"
@@ -105,11 +105,14 @@ $.fn.dankMeme = function () {
             t.wordsPush.partOfSpeech = t.rand.partOfSpeech;
             // console.log(t.rand);
 
+        }).fail(function (xhr, textStatus, errorThrown){
+            console.log(xhr.responseText);
         });
     };
 
     t.gifCall = function () {
-        var queryURL = "https://api.giphy.com/v1/gifs/random?tag=" + t.input + "&api_key=dc6zaTOxFJmzC&limit=1";
+        var i = t.getInput();
+        var queryURL = "https://api.giphy.com/v1/gifs/random?tag=" + i.replaced + "&api_key=dc6zaTOxFJmzC&limit=1";
         t.gifPush = t.saveObject.gifCall;
         $.ajax({
             url: queryURL,
@@ -253,7 +256,10 @@ $.fn.dankMeme = function () {
     }
 
     t.getInput = function () { //nothing needs to be added unless we want multiple inputs
-        t.input = $("#input-word").val().trim();
+        var i = this;
+        i.input = $("#input-word").val().trim();
+        i.replaced = i.input.split(' ').join('&&');
+        return i;
 
     }
 
