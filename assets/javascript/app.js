@@ -40,17 +40,18 @@ $.fn.dankMeme = function () {
             t.results = response.data;
             // console.log(t.results);
             t.memePush = t.saveObject.memeCall;
-            var rand = t.results[Math.floor(Math.random() * t.results.length)];
-            var randomImage = rand.images[0].link;
-            var imageData = randomImage.split(".").pop();
+
 
             function thisImage() {
+                var rand = t.results[Math.floor(Math.random() * t.results.length)];
+                var randomImage = rand.images[0].link;
+                var imageData = randomImage.split(".").pop();
+                
                 if (imageData != "mp4") {
                     var image = rand.images[0].link;
                     t.memePush.title = rand.title;
                     return image;
                 } else if (imageData === "mp4") {
-                    rand = t.results[Math.floor(Math.random() * t.results.length)]
                     thisImage();
                 } else {
                     var image = rand.gifv;
@@ -332,20 +333,22 @@ $(document).ready(function () {
 
     $("body").on("click", "#submit", function (event) {
         event.preventDefault();
-
-        dank.cleanUp();
-        dank.memeCall();
-        dank.urbanCall();
-        dank.wordsCall();
-        dank.gifCall();
-        dank.clearInput();
-
-        $(document).ajaxStop(function () {
+        var inputTrue = $("#input-word").val();
+        if (inputTrue.length > 0) {
             dank.cleanUp();
-            dataRef.child(dankKey).set(dank.saveObject);
-        })
+            dank.memeCall();
+            dank.urbanCall();
+            dank.wordsCall();
+            dank.gifCall();
+            dank.clearInput();
 
-        saveKey = saveData.push().getKey();
+            $(document).ajaxStop(function () {
+                dank.cleanUp();
+                dataRef.child(dankKey).set(dank.saveObject);
+            })
+
+            saveKey = saveData.push().getKey();
+        }
     })
 
 
