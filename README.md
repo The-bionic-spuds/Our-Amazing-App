@@ -12,3 +12,8 @@ This app will address the problem of being uneducated of the meme world. It will
 
 # Primary Goal
 Those who use our app will not only be educated with memes but will also be entertained and triggered with ucontrollable laughter.
+
+#Deployed Page
+
+https://the-bionic-spuds.github.io/Our-Amazing-App/
+
